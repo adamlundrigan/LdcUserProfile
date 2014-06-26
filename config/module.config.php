@@ -19,6 +19,11 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'ldc-user-profile_module_options' => 'LdcUserProfile\Options\ModuleOptionsFactory',
+        ),
+    ),
     'view_manager' => array(
         'template_path_stack' => array(
             'LdcUserProfile' => __DIR__ . '/../view',
