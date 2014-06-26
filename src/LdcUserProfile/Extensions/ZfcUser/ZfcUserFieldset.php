@@ -18,7 +18,7 @@ class ZfcUserFieldset extends Fieldset
     {
         parent::__construct('zfcuser');
 
-        foreach ( array('username', 'email', 'display_name', 'password', 'passwordVerify') as $field ) {
+        foreach ( array('userId', 'username', 'email', 'display_name', 'password', 'passwordVerify') as $field ) {
             if ( $baseForm->has($field) ) {
                 $this->add($baseForm->get($field));
             }
