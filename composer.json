@@ -24,7 +24,7 @@
     },
     "autoload": {
         "files": [ "Module.php" ],
-        "psr-4": {
+        "psr-0": {
             "LdcUserProfile\\": "src/"
         }
     }
