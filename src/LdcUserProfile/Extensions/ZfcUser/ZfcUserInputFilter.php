@@ -18,6 +18,13 @@ class ZfcUserInputFilter extends RegisterFilter
     {
         parent::__construct($emailValidator, $usernameValidator, $options);
 
+        $this->add(array(
+            'name'       => 'id',
+            'required'   => true,
+            'filters'    => array(array('name' => 'Digits')),
+            'validators' => array(),
+        ));
+
         $this->get('password')->setRequired(false);
         $this->get('passwordVerify')->setRequired(false);
     }

@@ -27,7 +27,10 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
             if ($state) {
                 $element = \Mockery::mock('Zend\Form\ElementInterface');
                 $element->shouldReceive('getName')->andReturn($field);
+                $element->shouldReceive('setName')->withArgs(array($field == 'userId' ? 'id' : $field))->once();
+
                 $mockForm->shouldReceive('get')->withArgs(array($field))->once()->andReturn($element);
+
                 array_push($enabled, $field);
             }
         }
@@ -35,7 +38,7 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
         $extension = new ZfcUserFieldset($mockForm);
 
         foreach ($enabled as $field) {
-            $this->assertTrue($extension->has($field));
+            $this->assertTrue($extension->has($field == 'userId' ? 'id' : $field));
         }
     }
 
@@ -43,6 +46,7 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array('userId' => 1, 'username' => 1, 'email' => 1, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 1)),
+            array(array('userId' => 0, 'username' => 1, 'email' => 1, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 1)),
             array(array('userId' => 1, 'username' => 0, 'email' => 1, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 1)),
             array(array('userId' => 1, 'username' => 1, 'email' => 0, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 1)),
             array(array('userId' => 1, 'username' => 1, 'email' => 1, 'display_name' => 0, 'password' => 1, 'passwordVerify' => 1)),
@@ -50,4 +54,5 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
             array(array('userId' => 1, 'username' => 1, 'email' => 1, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 0)),
         );
     }
+
 }
