@@ -28,6 +28,13 @@ class ModuleOptions extends AbstractOptions
      */
     protected $urlPath = '/user/profile';
 
+    /**
+     * Override of default validation groups to switch editing on/off for specific fields
+     *
+     * @var array
+     */
+    protected $validationGroupOverrides = array();
+
     public function getIsEnabled()
     {
         return $this->isEnabled;
@@ -53,6 +60,18 @@ class ModuleOptions extends AbstractOptions
     public function setUrlPath($urlPath)
     {
         $this->urlPath = $urlPath;
+
+        return $this;
+    }
+
+    public function getValidationGroupOverrides()
+    {
+        return $this->validationGroupOverrides;
+    }
+
+    public function setValidationGroupOverrides(array $vg)
+    {
+        $this->validationGroupOverrides = $vg;
 
         return $this;
     }

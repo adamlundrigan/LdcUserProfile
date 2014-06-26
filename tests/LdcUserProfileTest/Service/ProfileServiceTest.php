@@ -12,6 +12,7 @@ namespace LdcUserProfileTest\Service;
 use LdcUserProfile\Service\ProfileService;
 use Zend\Form\Element\Text;
 use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Form\FormInterface;
 
 class ProfileServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -102,6 +103,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $ext->shouldReceive('getFieldset')->once()->andReturn($mockFieldset);
         $ext->shouldReceive('getInputFilter')->once()->andReturn($mockInputFilter);
         $ext->shouldReceive('getObjectForUser')->withArgs(array($mockUser))->once()->andReturn($mockUserData);
+        $ext->shouldReceive('getFieldsetValidationGroup')->andReturn(FormInterface::VALIDATE_ALL);
 
         $form = $this->service->constructFormForUser($mockUser);
 

@@ -13,6 +13,7 @@ use Zend\Form\FormInterface;
 use LdcUserProfile\Extensions\AbstractExtension;
 use ZfcUser\Entity\UserInterface;
 use LdcUserProfile\Form\PrototypeForm;
+use LdcUserProfile\Options\ModuleOptions;
 
 class ProfileService
 {
@@ -25,6 +26,11 @@ class ProfileService
      * @var FormInterface
      */
     protected $formPrototype;
+
+    /**
+     * @var ModuleOptions
+     */
+    protected $moduleOptions;
 
     public function registerExtension(AbstractExtension $e)
     {
@@ -54,11 +60,24 @@ class ProfileService
         $form = clone $this->getFormPrototype();
         $entity = clone $form->getObject();
 
+        $vgOverrides = $this->getModuleOptions()->getValidationGroupOverrides();
+
+        $validationGroup = array();
         foreach ( $this->getExtensions() as $name => $ext ) {
             $form->add($ext->getFieldset(), array('name' => $name));
             $form->getInputFilter()->add($ext->getInputFilter(), $name);
             $entity->{$name} = $ext->getObjectForUser($user);
+
+            // Process validation group + overrides
+            if ( isset($vgOverrides[$name]) ) {
+                $ext->setFieldsetValidationGroup($vgOverrides[$name]);
+            }
+            $validationGroup[$name] = $ext->getFieldsetValidationGroup();
+            if (empty($validationGroup[$name])) {
+                unset($validationGroup[$name]);
+            }
         }
+        $form->setValidationGroup($validationGroup);
 
         $form->bind($entity);
 
@@ -87,6 +106,22 @@ class ProfileService
     public function setFormPrototype(FormInterface $form)
     {
         $this->formPrototype = $form;
+
+        return $this;
+    }
+
+    public function getModuleOptions()
+    {
+        if (! $this->moduleOptions instanceof ModuleOptions) {
+            $this->moduleOptions = new ModuleOptions();
+        }
+
+        return $this->moduleOptions;
+    }
+
+    public function setModuleOptions(ModuleOptions $moduleOptions)
+    {
+        $this->moduleOptions = $moduleOptions;
 
         return $this;
     }

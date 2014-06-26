@@ -27,6 +27,25 @@ class ZfcUserExtension extends AbstractExtension
     }
 
     /**
+     * Defines the validation group for the provided fieldset
+     *
+     * @return array
+     */
+    public function getFieldsetValidationGroup()
+    {
+        $parentvg = parent::getFieldsetValidationGroup();
+        if ( empty($parentvg) ) {
+            $parentvg = array();
+            foreach ( $this->getFieldset()->getElements() as $element ) {
+                array_push($parentvg, $element->getName());
+            }
+            $this->setFieldsetValidationGroup($parentvg);
+        }
+
+        return $parentvg;
+    }
+
+    /**
      * Retrieve the extension entity associated with the current user
      * (In this case it's a dummy method as the user is the entity)
      *

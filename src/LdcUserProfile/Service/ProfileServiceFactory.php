@@ -20,6 +20,7 @@ class ProfileServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $service = new ProfileService();
+        $service->setModuleOptions($serviceLocator->get('ldc-user-profile_module_options'));
 
         return $service;
     }

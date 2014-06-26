@@ -12,6 +12,11 @@ $settings = array(
      */
     'url_path' => '/user/profile',
     
+    /**
+     * Override of default validation groups to switch editing on/off for specific fields
+     */
+    'validation_group_override' => array(),
+
 );
 
 /**

@@ -15,6 +15,8 @@ abstract class AbstractExtension
 {
     protected $fieldset;
 
+    protected $fieldsetValidationGroup = array();
+
     protected $inputFilter;
 
     public function getFieldset()
@@ -37,6 +39,29 @@ abstract class AbstractExtension
     public function setInputFilter($inputFilter)
     {
         $this->inputFilter = $inputFilter;
+
+        return $this;
+    }
+
+    /**
+     * Defines the validation group for the provided fieldset
+     *
+     * @return array
+     */
+    public function getFieldsetValidationGroup()
+    {
+        return $this->fieldsetValidationGroup;
+    }
+
+    /**
+     * Override definition of validation group for the provided fieldset
+     *
+     * @param  array $vg
+     * @return self
+     */
+    public function setFieldsetValidationGroup(array $vg)
+    {
+        $this->fieldsetValidationGroup = $vg;
 
         return $this;
     }
