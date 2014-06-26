@@ -25,12 +25,13 @@ class ZfcUserForm extends Base
     /**
      * Set Registration Options
      *
-     * @param RegistrationOptionsInterface $registrationOptions
+     * @param  RegistrationOptionsInterface $registrationOptions
      * @return Register
      */
     public function setRegistrationOptions(RegistrationOptionsInterface $registrationOptions)
     {
         $this->registrationOptions = $registrationOptions;
+
         return $this;
     }
 

@@ -11,7 +11,6 @@ namespace LdcUserProfile\Options;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use LdcUserProfile\Options\ModuleOptions;
 
 class ModuleOptionsFactory implements FactoryInterface
 {

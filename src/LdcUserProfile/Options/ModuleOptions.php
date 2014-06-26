@@ -28,15 +28,15 @@ class ModuleOptions extends AbstractOptions
      */
     protected $urlPath = '/user/profile';
 
-
     public function getIsEnabled()
     {
         return $this->isEnabled;
     }
 
-	public function setIsEnabled($isEnabled)
+    public function setIsEnabled($isEnabled)
     {
         $this->isEnabled = $isEnabled == true;
+
         return $this;
     }
 
@@ -45,7 +45,7 @@ class ModuleOptions extends AbstractOptions
         return $this->getIsEnabled() == true;
     }
 
-	public function getUrlPath()
+    public function getUrlPath()
     {
         return $this->urlPath;
     }
@@ -53,6 +53,7 @@ class ModuleOptions extends AbstractOptions
     public function setUrlPath($urlPath)
     {
         $this->urlPath = $urlPath;
+
         return $this;
     }
 

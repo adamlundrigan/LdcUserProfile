@@ -22,9 +22,9 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
         $mockForm = \Mockery::mock('ZfcUser\Form\Base');
 
         $enabled = array();
-        foreach ( $setup as $field => $state ) {
+        foreach ($setup as $field => $state) {
             $mockForm->shouldReceive('has')->withArgs(array($field))->once()->andReturn($state == 1);
-            if ( $state ) {
+            if ($state) {
                 $element = \Mockery::mock('Zend\Form\ElementInterface');
                 $element->shouldReceive('getName')->andReturn($field);
                 $mockForm->shouldReceive('get')->withArgs(array($field))->once()->andReturn($element);
@@ -34,7 +34,7 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
 
         $extension = new ZfcUserFieldset($mockForm);
 
-        foreach ( $enabled as $field ) {
+        foreach ($enabled as $field) {
             $this->assertTrue($extension->has($field));
         }
     }
@@ -42,7 +42,7 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
     public function providerFieldWillAddTheStandardProfileFieldsFromBaseFormWhenTheyArePresent()
     {
         return array(
-        	array(array('userId' => 1, 'username' => 1, 'email' => 1, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 1)),
+            array(array('userId' => 1, 'username' => 1, 'email' => 1, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 1)),
             array(array('userId' => 1, 'username' => 0, 'email' => 1, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 1)),
             array(array('userId' => 1, 'username' => 1, 'email' => 0, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 1)),
             array(array('userId' => 1, 'username' => 1, 'email' => 1, 'display_name' => 0, 'password' => 1, 'passwordVerify' => 1)),

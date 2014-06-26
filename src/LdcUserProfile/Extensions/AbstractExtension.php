@@ -17,32 +17,34 @@ abstract class AbstractExtension
 
     protected $inputFilter;
 
-	public function getFieldset()
+    public function getFieldset()
     {
         return $this->fieldset;
     }
 
-	public function setFieldset($fieldset)
+    public function setFieldset($fieldset)
     {
         $this->fieldset = $fieldset;
+
         return $this;
     }
 
-	public function getInputFilter()
+    public function getInputFilter()
     {
         return $this->inputFilter;
     }
 
-	public function setInputFilter($inputFilter)
+    public function setInputFilter($inputFilter)
     {
         $this->inputFilter = $inputFilter;
+
         return $this;
     }
 
     /**
      * Persist changes to the extension entity
      *
-     * @param \stdClass $entity
+     * @param  \stdClass $entity
      * @return boolean
      */
     abstract public function save($entity);
@@ -50,11 +52,11 @@ abstract class AbstractExtension
     /**
      * Retrieve the extension entity associated with the current user
      *
-     * @param UserInterface $user
+     * @param  UserInterface $user
      * @return \stdClass
      */
-	abstract public function getObjectForUser(UserInterface $user);
+    abstract public function getObjectForUser(UserInterface $user);
 
-	abstract public function getName();
+    abstract public function getName();
 
 }

@@ -29,6 +29,7 @@ class ProfileService
     public function registerExtension(AbstractExtension $e)
     {
         $this->extensions[$e->getName()] = $e;
+
         return $this;
     }
 
@@ -37,8 +38,9 @@ class ProfileService
         unset($this->extensions[
             $nameOrInstance instanceof AbstractExtension
                 ? $nameOrInstance->getName()
-                : (string)$nameOrInstance]
+                : (string) $nameOrInstance]
         );
+
         return $this;
     }
 
@@ -69,20 +71,23 @@ class ProfileService
         foreach ( $this->getExtensions() as $name => $ext ) {
             $result = $result && $ext->save($entity);
         }
+
         return $result;
     }
 
-	public function getFormPrototype()
+    public function getFormPrototype()
     {
         if ( is_null($this->formPrototype) ) {
             $this->formPrototype = new PrototypeForm();
         }
+
         return $this->formPrototype;
     }
 
-	public function setFormPrototype(FormInterface $form)
+    public function setFormPrototype(FormInterface $form)
     {
         $this->formPrototype = $form;
+
         return $this;
     }
 

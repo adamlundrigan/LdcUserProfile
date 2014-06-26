@@ -79,8 +79,8 @@ class ZfcUserExtensionTest extends AbstractExtensionTest
         $arg->zfcuser = \Mockery::mock('ZfcUser\Entity\UserInterface');
         $arg->zfcuser->shouldReceive('getId')->andReturn(42);
         $arg->zfcuser->shouldReceive('getPassword')->andReturn('bazbat');
-        $arg->zfcuser->shouldReceive('setPassword')->once()->with(\Mockery::on(function($arg) {
-        	return preg_match('{^[$][a-z0-9]{2}[$]04[$]}is', $arg) !== false;
+        $arg->zfcuser->shouldReceive('setPassword')->once()->with(\Mockery::on(function ($arg) {
+            return preg_match('{^[$][a-z0-9]{2}[$]04[$]}is', $arg) !== false;
         }));
 
         $mockHydrator = \Mockery::mock('Zend\Stdlib\Hydrator\HydratorInterface');
@@ -111,7 +111,7 @@ class ZfcUserExtensionTest extends AbstractExtensionTest
         $arg->zfcuser = \Mockery::mock('ZfcUser\Entity\UserInterface');
         $arg->zfcuser->shouldReceive('getId')->andReturn(42);
         $arg->zfcuser->shouldReceive('getPassword')->andReturn('bazbat');
-        $arg->zfcuser->shouldReceive('setPassword')->once()->with(\Mockery::on(function($arg) {
+        $arg->zfcuser->shouldReceive('setPassword')->once()->with(\Mockery::on(function ($arg) {
             return preg_match('{^[$][a-z0-9]{2}[$]04[$]}is', $arg) !== false;
         }));
 
@@ -175,9 +175,7 @@ class ZfcUserExtensionTest extends AbstractExtensionTest
 
 class HydratorWithCrypto implements HydratorInterface
 {
-	public function extract($object) {}
-	public function hydrate(array $data, $object) {}
-	public function getCryptoService() {}
+    public function extract($object) {}
+    public function hydrate(array $data, $object) {}
+    public function getCryptoService() {}
 }
-
-

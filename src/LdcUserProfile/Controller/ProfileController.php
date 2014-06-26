@@ -13,7 +13,6 @@ use Zend\Mvc\Controller\AbstractActionController;
 use LdcUserProfile\Options\ModuleOptions;
 use LdcUserProfile\Service\ProfileService;
 use Zend\Form\Form;
-use Zend\InputFilter\InputFilter;
 use Zend\View\Model\ViewModel;
 use Zend\Http\Response;
 
@@ -29,13 +28,13 @@ class ProfileController extends AbstractActionController
 
         $vm = new ViewModel(array(
             'profileForm' => $form,
-        	'options' => $this->getModuleOptions(),
+            'options' => $this->getModuleOptions(),
         ));
 
         $prg = $this->prg($this->url()->fromRoute('ldc-user-profile'), true);
-        if ( $prg instanceof Response ) {
+        if ($prg instanceof Response) {
             return $prg;
-        } elseif ( $prg === false ) {
+        } elseif ($prg === false) {
             return $vm;
         }
 
@@ -44,6 +43,7 @@ class ProfileController extends AbstractActionController
         $form->setData($prg);
         if ( ! $form->isValid() ) {
             $fm->addErrorMessage('One or more of the values you provided is invalid.');
+
             return $vm;
         }
 
@@ -52,26 +52,29 @@ class ProfileController extends AbstractActionController
         }
 
         $fm->addSuccessMessage('Profile updated successfully!');
+
         return $this->redirect()->toRoute('ldc-user-profile');
     }
 
     public function getService()
     {
-        if ( ! $this->profileService instanceof ModuleOptions ) {
+        if (! $this->profileService instanceof ModuleOptions) {
             $this->profileService = $this->getServiceLocator()->get(
-        	   'ldc-user-profile_service'
+               'ldc-user-profile_service'
             );
         }
+
         return $this->profileService;
     }
 
     public function getModuleOptions()
     {
-        if ( ! $this->moduleOptions instanceof ModuleOptions ) {
+        if (! $this->moduleOptions instanceof ModuleOptions) {
             $this->moduleOptions = $this->getServiceLocator()->get(
-        	   'ldc-user-profile_module_options'
+               'ldc-user-profile_module_options'
             );
         }
+
         return $this->moduleOptions;
     }
 }

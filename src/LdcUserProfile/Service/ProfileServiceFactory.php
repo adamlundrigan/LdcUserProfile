@@ -11,7 +11,6 @@ namespace LdcUserProfile\Service;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use LdcUserProfile\Options\ModuleOptions;
 
 class ProfileServiceFactory implements FactoryInterface
 {

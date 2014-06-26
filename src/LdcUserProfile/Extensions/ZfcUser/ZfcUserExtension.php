@@ -30,70 +30,72 @@ class ZfcUserExtension extends AbstractExtension
      * Retrieve the extension entity associated with the current user
      * (In this case it's a dummy method as the user is the entity)
      *
-     * @param UserInterface $user
+     * @param  UserInterface $user
      * @return UserInterface
      */
-	public function getObjectForUser(UserInterface $user)
-	{
-	    $object = clone $user;
+    public function getObjectForUser(UserInterface $user)
+    {
+        $object = clone $user;
         $object->setPassword('');
-	    return $object;
-	}
 
-	public function save($entity)
-	{
-	    if ( ! isset($entity->zfcuser) || ! $entity->zfcuser instanceof UserInterface ) {
-	        throw new \RuntimeException('Entity must implement ZfcUser\Entity\UserInterface');
-	    }
+        return $object;
+    }
 
-	    // If the user specified a new password, hash it
-	    $password = $entity->zfcuser->getPassword();
-	    if ( ! empty($password) ) {
-	        $hydrator = $this->getFieldset()->getHydrator();
-	        if ( method_exists($hydrator, 'getCryptoService') ) {
-	            // ZfcUser dev-master
-	            $hash = $this->getFieldset()->getHydrator()->getCryptoService()->create($password);
-	        } else {
-	            $bcrypt = new Bcrypt();
-	            $bcrypt->setCost($this->getUserService()->getOptions()->getPasswordCost());
-	            $hash = $bcrypt->create($password);
-	        }
-	        $entity->zfcuser->setPassword($hash);
+    public function save($entity)
+    {
+        if ( ! isset($entity->zfcuser) || ! $entity->zfcuser instanceof UserInterface ) {
+            throw new \RuntimeException('Entity must implement ZfcUser\Entity\UserInterface');
+        }
 
-	        // Clear out the password values now that we don't need them again
-	        $this->getFieldset()->get('password')->setValue('');
-	        $this->getFieldset()->get('passwordVerify')->setValue('');
-	    }
+        // If the user specified a new password, hash it
+        $password = $entity->zfcuser->getPassword();
+        if ( ! empty($password) ) {
+            $hydrator = $this->getFieldset()->getHydrator();
+            if ( method_exists($hydrator, 'getCryptoService') ) {
+                // ZfcUser dev-master
+                $hash = $this->getFieldset()->getHydrator()->getCryptoService()->create($password);
+            } else {
+                $bcrypt = new Bcrypt();
+                $bcrypt->setCost($this->getUserService()->getOptions()->getPasswordCost());
+                $hash = $bcrypt->create($password);
+            }
+            $entity->zfcuser->setPassword($hash);
 
-	    // Reload the actual user entity and transfer changes to it
-	    // (necessary for ZfcUserDoctrineORM to work, as $entity->zfcuser is disconnected)
-	    $userobj = $this->getUserService()->getUserMapper()->findById($entity->zfcuser->getId());
-	    $this->transferChangesToExistingEntity($entity->zfcuser, $userobj);
+            // Clear out the password values now that we don't need them again
+            $this->getFieldset()->get('password')->setValue('');
+            $this->getFieldset()->get('passwordVerify')->setValue('');
+        }
 
-	    return $this->getUserService()->getUserMapper()->update($userobj);
-	}
+        // Reload the actual user entity and transfer changes to it
+        // (necessary for ZfcUserDoctrineORM to work, as $entity->zfcuser is disconnected)
+        $userobj = $this->getUserService()->getUserMapper()->findById($entity->zfcuser->getId());
+        $this->transferChangesToExistingEntity($entity->zfcuser, $userobj);
 
-	public function transferChangesToExistingEntity(UserInterface $newEntity, UserInterface $existingEntity)
-	{
-	    $existingEntity->setUsername($newEntity->getUsername());
-	    $existingEntity->setEmail($newEntity->getEmail());
-	    $existingEntity->setDisplayName($newEntity->getDisplayName());
-	    $existingEntity->setState($newEntity->getState());
+        return $this->getUserService()->getUserMapper()->update($userobj);
+    }
 
-	    $passwordHash = $newEntity->getPassword();
-	    if ( ! empty($passwordHash) ) {
-	        $existingEntity->setPassword($passwordHash);
-	    }
-	}
+    public function transferChangesToExistingEntity(UserInterface $newEntity, UserInterface $existingEntity)
+    {
+        $existingEntity->setUsername($newEntity->getUsername());
+        $existingEntity->setEmail($newEntity->getEmail());
+        $existingEntity->setDisplayName($newEntity->getDisplayName());
+        $existingEntity->setState($newEntity->getState());
 
-	public function setUserService(UserService $svc)
-	{
-	    $this->userService = $svc;
-	    return $this;
-	}
+        $passwordHash = $newEntity->getPassword();
+        if ( ! empty($passwordHash) ) {
+            $existingEntity->setPassword($passwordHash);
+        }
+    }
 
-	public function getUserService()
-	{
-	    return $this->userService;
-	}
+    public function setUserService(UserService $svc)
+    {
+        $this->userService = $svc;
+
+        return $this;
+    }
+
+    public function getUserService()
+    {
+        return $this->userService;
+    }
 }

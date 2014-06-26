@@ -1,6 +1,6 @@
 <?php
 /**
- * LdcUserProfile 
+ * LdcUserProfile
  *
  * @link      http://github.com/adamlundrigan/LdcUserProfile for the canonical source repository
  * @copyright Copyright (c) 2014 Adam Lundrigan & Contributors
@@ -30,6 +30,7 @@ class Bootstrap
 
         if (is_readable($vendorPath . '/autoload.php')) {
             $loader = include $vendorPath . '/autoload.php';
+
             return;
         }
 
