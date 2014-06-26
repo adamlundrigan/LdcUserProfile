@@ -23,6 +23,7 @@
         "fabpot/php-cs-fixer": "@stable"
     },
     "autoload": {
+        "files": [ "Module.php" ],
         "psr-4": {
             "LdcUserProfile\\": "src/"
         }
