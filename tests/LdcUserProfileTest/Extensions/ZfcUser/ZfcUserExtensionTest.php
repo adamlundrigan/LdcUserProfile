@@ -163,10 +163,10 @@ class ZfcUserExtensionTest extends AbstractExtensionTest
         $src->shouldReceive('getPassword')->andReturn('');
 
         $dest = \Mockery::mock('ZfcUser\Entity\UserInterface');
-        $dest->shouldReceive('setUsername')->withArgs(['test']);
-        $dest->shouldReceive('setEmail')->withArgs(['test@test.com']);
-        $dest->shouldReceive('setDisplayName')->withArgs(['Test Guy']);
-        $dest->shouldReceive('setState')->withArgs(['1']);
+        $dest->shouldReceive('setUsername')->withArgs(array('test'));
+        $dest->shouldReceive('setEmail')->withArgs(array('test@test.com'));
+        $dest->shouldReceive('setDisplayName')->withArgs(array('Test Guy'));
+        $dest->shouldReceive('setState')->withArgs(array('1'));
         $dest->shouldReceive('setPassword')->never();
 
         $this->extension->transferChangesToExistingEntity($src, $dest);
