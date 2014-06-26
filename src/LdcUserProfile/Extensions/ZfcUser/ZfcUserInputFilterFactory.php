@@ -11,6 +11,7 @@ namespace LdcUserProfile\Extensions\ZfcUser;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use LdcUserProfile\Extensions\ZfcUser\Validator\NoOtherRecordExists;
 
 class ZfcUserInputFilterFactory implements FactoryInterface
 {
@@ -20,10 +21,11 @@ class ZfcUserInputFilterFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $options = $serviceLocator->get('zfcuser_module_options');
+        $mapper  = $serviceLocator->get('zfcuser_user_mapper');
 
         $object = new ZfcUserInputFilter(
-            array('name' => 'EmailAddress'),  //todo
-            array('name' => 'Alnum'),  //todo
+            new NoOtherRecordExists(array('mapper' => $mapper, 'key' => 'email')),
+            new NoOtherRecordExists(array('mapper' => $mapper, 'key' => 'username')),
             $options
         );
 
