@@ -7,21 +7,25 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace LdcUserProfile\Options;
+namespace LdcUserProfile\Extensions\ZfcUser;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use LdcUserProfile\Options\ModuleOptions;
 
-class ModuleOptionsFactory implements FactoryInterface
+class ZfcUserFieldsetFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Config');
+        $options = $serviceLocator->get('zfcuser_module_options');
+        $entityClass = $options->getUserEntityClass();
 
-        return new ModuleOptions(isset($config['ldc-user-profile']) ? $config['ldc-user-profile'] : array());
+        $object = new ZfcUserFieldset(new ZfcUserForm($options));
+        $object->setHydrator($serviceLocator->get('zfcuser_user_hydrator'));
+        $object->setObject(new $entityClass());
+
+        return $object;
     }
 }

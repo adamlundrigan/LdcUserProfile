@@ -1,6 +1,6 @@
 <?php
 /**
- * LdcUserProfile 
+ * LdcUserProfile
  *
  * @link      http://github.com/adamlundrigan/LdcUserProfile for the canonical source repository
  * @copyright Copyright (c) 2014 Adam Lundrigan & Contributors
@@ -22,15 +22,22 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
     {
         $this->options = new Options();
     }
- 
+
     public function testInstantiation()
     {
         $this->assertInstanceOf('LdcUserProfile\Options\ModuleOptions', $this->options);
     }
-    
+
     public function testGetSetUrlPath()
     {
         $this->options->setUrlPath('/foo/bar');
         $this->assertEquals('/foo/bar', $this->options->getUrlPath());
+    }
+
+    public function testGetSetIsEnabled()
+    {
+        $this->options->setIsEnabled(false);
+        $this->assertEquals(false, $this->options->getIsEnabled());
+        $this->assertEquals(false, $this->options->isEnabled());
     }
 }

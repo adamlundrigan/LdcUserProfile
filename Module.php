@@ -1,6 +1,6 @@
 <?php
 /**
- * LdcUserProfile 
+ * LdcUserProfile
  *
  * @link      http://github.com/adamlundrigan/LdcUserProfile for the canonical source repository
  * @copyright Copyright (c) 2014 Adam Lundrigan & Contributors
@@ -16,6 +16,10 @@ class Module implements AutoloaderProviderInterface
 {
     public function onBootstrap(MvcEvent $e)
     {
+        $sm = $e->getApplication()->getServiceManager();
+        $sm->get('ldc-user-profile_service')->registerExtension(
+	        $sm->get('ldc-user-profile_extension_zfcuser')
+        );
     }
 
     public function getAutoloaderConfig()
