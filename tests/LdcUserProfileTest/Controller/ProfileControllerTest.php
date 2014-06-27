@@ -119,7 +119,7 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $this->mockForm->shouldReceive('isValid')->andReturn(true);
         $this->mockForm->shouldReceive('getData')->andReturn($mockResult);
 
-        $this->mockProfileService->shouldReceive('save')->withArgs(array($mockResult));
+        $this->mockProfileService->shouldReceive('save')->withArgs(array($mockResult))->andReturn(true);
 
         $result = $this->controller->indexAction();
 
@@ -145,6 +145,35 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->mockForm->shouldReceive('setData')->withArgs(array($postData));
         $this->mockForm->shouldReceive('isValid')->andReturn(false);
+
+        $result = $this->controller->indexAction();
+
+        $this->assertInstanceOf('Zend\View\Model\ModelInterface', $result);
+        $this->assertSame($this->mockForm, $result->getVariable('profileForm'));
+        $this->assertSame($this->mockModuleOptions, $result->getVariable('options'));
+    }
+
+    public function testControllerWillRenderFormWhenSaveCallFails()
+    {
+        $this->event->setResponse($this->controller->getResponse());
+
+        $req = $this->controller->getRequest();
+        $req->setMethod(Request::METHOD_POST);
+        $req->getPost()->set('foo', 'bar');
+
+        $postData = $req->getPost()->toArray();
+        $mockResult = new \stdClass();
+
+        $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\PostRedirectGet[__invoke]]');
+        $mockPrg->shouldReceive('__invoke')->andReturn($postData);
+        $pm = $this->controller->getPluginManager();
+        $pm->setService('prg', $mockPrg);
+
+        $this->mockForm->shouldReceive('setData')->withArgs(array($postData));
+        $this->mockForm->shouldReceive('isValid')->andReturn(true);
+        $this->mockForm->shouldReceive('getData')->andReturn($mockResult);
+
+        $this->mockProfileService->shouldReceive('save')->withArgs(array($mockResult))->andReturn(false);
 
         $result = $this->controller->indexAction();
 

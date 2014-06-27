@@ -53,6 +53,8 @@ class ProfileController extends AbstractActionController
 
         if ( ! $this->getService()->save($form->getData()) ) {
             $fm->addErrorMessage('There was a problem saving your profile update.');
+
+            return $vm;
         }
 
         $fm->addSuccessMessage('Profile updated successfully!');
