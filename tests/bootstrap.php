@@ -30,7 +30,7 @@ class Bootstrap
 
         if (is_readable($vendorPath . '/autoload.php')) {
             $loader = include $vendorPath . '/autoload.php';
-            $loader->add('LdcUserProfileTest', '.');
+            $loader->add('LdcUserProfileTest', __DIR__);
 
             return;
         }
