@@ -67,6 +67,7 @@ class ZfcUserExtensionTest extends AbstractExtensionTest
         $this->extension->setUserService($mockUserService);
 
         $this->assertEquals('boolean', $this->extension->save($arg));
+        $this->assertSame($mockUserEntity, $arg->zfcuser);
     }
 
     public function testSaveWillHashTheUsersPasswordInZfcUserOneOneZeroAndBelow()

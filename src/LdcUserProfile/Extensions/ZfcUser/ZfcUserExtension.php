@@ -90,6 +90,10 @@ class ZfcUserExtension extends AbstractExtension
         $userobj = $this->getUserService()->getUserMapper()->findById($entity->zfcuser->getId());
         $this->transferChangesToExistingEntity($entity->zfcuser, $userobj);
 
+        // Stash the new entity back in the original's place so that later
+        // extensions can use it in Doctrine associations safely
+        $entity->zfcuser = $userobj;
+
         return $this->getUserService()->getUserMapper()->update($userobj);
     }
 
