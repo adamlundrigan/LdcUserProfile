@@ -74,7 +74,7 @@ class ProfileService
             }
             $validationGroup[$name] = $ext->getFieldsetValidationGroup();
             if (empty($validationGroup[$name])) {
-                unset($validationGroup[$name]);
+                $validationGroup[$name] = array();
             }
         }
         $form->setValidationGroup($validationGroup);
