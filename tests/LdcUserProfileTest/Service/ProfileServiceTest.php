@@ -114,7 +114,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->getInputFilter()->has('testext'));
         $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));
     }
-    
+
     public function testConstructFormForUserObeysValidationGroupOverrides()
     {
         $mockUserData = new \stdClass();
@@ -142,7 +142,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->getModuleOptions()->setValidationGroupOverrides(array(
             'testext' => array('test')
         ));
-        
+
         $form = $this->service->constructFormForUser($mockUser);
 
         $this->assertInstanceOf('Zend\Form\FormInterface', $form);
@@ -150,9 +150,9 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->get('testext')->has('test'));
         $this->assertEquals('hi', $form->get('testext')->get('test')->getValue());
         $this->assertTrue($form->getInputFilter()->has('testext'));
-        $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));        
+        $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));
     }
-    
+
     public function testConstructFormForUseIgnoresEmptyValidationGroupOverridesForAnExtension()
     {
         $mockUserData = new \stdClass();
@@ -180,7 +180,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->getModuleOptions()->setValidationGroupOverrides(array(
             'testext' => array()
         ));
-        
+
         $form = $this->service->constructFormForUser($mockUser);
 
         $this->assertInstanceOf('Zend\Form\FormInterface', $form);
@@ -188,6 +188,6 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->get('testext')->has('test'));
         $this->assertEquals('hi', $form->get('testext')->get('test')->getValue());
         $this->assertTrue($form->getInputFilter()->has('testext'));
-        $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));        
+        $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));
     }
 }
