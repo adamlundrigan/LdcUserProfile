@@ -55,10 +55,11 @@ class ProfileController extends AbstractActionController
 
         return $this->redirect()->toRoute('ldc-user-profile');
     }
-    
+
     public function setService(ProfileService $svc)
     {
         $this->profileService = $svc;
+
         return $this;
     }
 
@@ -72,13 +73,14 @@ class ProfileController extends AbstractActionController
 
         return $this->profileService;
     }
-    
+
     public function setModuleOptions(ModuleOptions $obj)
     {
         $this->moduleOptions = $obj;
+
         return $this;
     }
-    
+
     public function getModuleOptions()
     {
         if (! $this->moduleOptions instanceof ModuleOptions) {
