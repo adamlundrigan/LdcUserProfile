@@ -1,0 +1,20 @@
+<br />
+<div class="panel panel-default">
+  <div class="panel-heading">Example Profile Extension</div>
+  <div class="panel-body">
+
+<?php foreach ($fieldset as $element): ?>
+    <?php if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
+        <dt><?php echo $this->formLabel($element) ?></dt>
+    <?php endif ?>
+    <?php if ($element instanceof Zend\Form\Element\Button): ?>
+        <dd><?php echo $this->formButton($element) ?></dd>
+    <?php elseif ($element instanceof Zend\Form\Element\Captcha): ?>
+        <dd><?php echo $this->formCaptcha($element) . $this->formElementErrors($element) ?></dd>
+    <?php else: ?>
+        <dd><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></dd>
+    <?php endif ?>
+<?php endforeach ?>
+        
+  </div>
+</div>
