@@ -24,7 +24,7 @@ class ProfileController extends AbstractActionController
 
     public function indexAction()
     {
-        $form = $this->getService()->constructFormForUser($this->user());
+        $form = $this->getService()->constructFormForUser($this->zfcUserAuthentication()->getIdentity());
 
         $vm = new ViewModel(array(
             'profileForm' => $form,
