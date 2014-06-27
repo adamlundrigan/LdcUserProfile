@@ -29,4 +29,17 @@ abstract class AbstractExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension->setInputFilter($mock);
         $this->assertSame($mock, $this->extension->getInputFilter());
     }
+    
+    public function testGetSetFieldsetValidationGroup()
+    {
+        $data = array('zfcuser' => array('id', 'username'));
+        $this->extension->setFieldsetValidationGroup($data);
+        $this->assertSame($data, $this->extension->getFieldsetValidationGroup());
+    }
+    
+    public function testGetNameIsCallable()
+    {
+        $this->assertTrue(is_callable(array($this->extension, 'getName')));
+        $this->assertNotEmpty($this->extension->getName());
+    }
 }

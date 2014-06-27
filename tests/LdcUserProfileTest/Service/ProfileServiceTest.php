@@ -114,4 +114,80 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->getInputFilter()->has('testext'));
         $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));
     }
+    
+    public function testConstructFormForUserObeysValidationGroupOverrides()
+    {
+        $mockUserData = new \stdClass();
+        $mockUserData->test = 'hi';
+
+        $mockFieldset = \Mockery::mock('Zend\Form\Fieldset[getName,setName]');
+        $mockFieldset->shouldReceive('getName')->andReturn('testext');
+        $mockFieldset->shouldReceive('setName')->withArgs(array('testext'))->once();
+        $mockFieldset->add(new Text('test'));
+        $mockFieldset->setHydrator(new ObjectProperty());
+        $mockFieldset->setObject(new \stdClass());
+
+        $mockInputFilter = new \Zend\InputFilter\InputFilter();
+        $mockInputFilter->add(new \Zend\InputFilter\Input('test'));
+
+        $mockUser = \Mockery::mock('ZfcUser\Entity\UserInterface');
+
+        $ext = $this->testRegisterExtension();
+        $ext->shouldReceive('getFieldset')->once()->andReturn($mockFieldset);
+        $ext->shouldReceive('getInputFilter')->once()->andReturn($mockInputFilter);
+        $ext->shouldReceive('getObjectForUser')->withArgs(array($mockUser))->once()->andReturn($mockUserData);
+        $ext->shouldReceive('setFieldsetValidationGroup')->withArgs(array(array('test')))->once();
+        $ext->shouldReceive('getFieldsetValidationGroup')->andReturn(array('test'))->once();
+
+        $this->service->getModuleOptions()->setValidationGroupOverrides(array(
+            'testext' => array('test')
+        ));
+        
+        $form = $this->service->constructFormForUser($mockUser);
+
+        $this->assertInstanceOf('Zend\Form\FormInterface', $form);
+        $this->assertTrue($form->has('testext'));
+        $this->assertTrue($form->get('testext')->has('test'));
+        $this->assertEquals('hi', $form->get('testext')->get('test')->getValue());
+        $this->assertTrue($form->getInputFilter()->has('testext'));
+        $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));        
+    }
+    
+    public function testConstructFormForUseIgnoresEmptyValidationGroupOverridesForAnExtension()
+    {
+        $mockUserData = new \stdClass();
+        $mockUserData->test = 'hi';
+
+        $mockFieldset = \Mockery::mock('Zend\Form\Fieldset[getName,setName]');
+        $mockFieldset->shouldReceive('getName')->andReturn('testext');
+        $mockFieldset->shouldReceive('setName')->withArgs(array('testext'))->once();
+        $mockFieldset->add(new Text('test'));
+        $mockFieldset->setHydrator(new ObjectProperty());
+        $mockFieldset->setObject(new \stdClass());
+
+        $mockInputFilter = new \Zend\InputFilter\InputFilter();
+        $mockInputFilter->add(new \Zend\InputFilter\Input('test'));
+
+        $mockUser = \Mockery::mock('ZfcUser\Entity\UserInterface');
+
+        $ext = $this->testRegisterExtension();
+        $ext->shouldReceive('getFieldset')->once()->andReturn($mockFieldset);
+        $ext->shouldReceive('getInputFilter')->once()->andReturn($mockInputFilter);
+        $ext->shouldReceive('getObjectForUser')->withArgs(array($mockUser))->once()->andReturn($mockUserData);
+        $ext->shouldReceive('setFieldsetValidationGroup')->withArgs(array(array()))->once();
+        $ext->shouldReceive('getFieldsetValidationGroup')->andReturn(array())->once();
+
+        $this->service->getModuleOptions()->setValidationGroupOverrides(array(
+            'testext' => array()
+        ));
+        
+        $form = $this->service->constructFormForUser($mockUser);
+
+        $this->assertInstanceOf('Zend\Form\FormInterface', $form);
+        $this->assertTrue($form->has('testext'));
+        $this->assertTrue($form->get('testext')->has('test'));
+        $this->assertEquals('hi', $form->get('testext')->get('test')->getValue());
+        $this->assertTrue($form->getInputFilter()->has('testext'));
+        $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));        
+    }
 }

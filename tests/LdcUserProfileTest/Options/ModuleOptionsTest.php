@@ -40,4 +40,12 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->options->getIsEnabled());
         $this->assertEquals(false, $this->options->isEnabled());
     }
+
+    public function testGetSetValidationGroupOverrides()
+    {
+        $data = array('foobar' => array('bazbat'));
+        $this->options->setValidationGroupOverrides($data);
+        $this->assertEquals($data, $this->options->getValidationGroupOverrides());
+    }
+
 }

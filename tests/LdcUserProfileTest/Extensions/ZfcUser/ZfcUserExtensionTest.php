@@ -171,6 +171,15 @@ class ZfcUserExtensionTest extends AbstractExtensionTest
 
         $this->extension->transferChangesToExistingEntity($src, $dest);
     }
+    
+    public function testGetFieldsetValidationGroupWillAutogenerateListFromFieldsetWhenEmpty()
+    {
+        $fieldset = new \Zend\Form\Fieldset();
+        $fieldset->add(array('name' => 'test', 'type' => 'Text'));
+        
+        $this->extension->setFieldset($fieldset);
+        $this->assertEquals(array('test'), $this->extension->getFieldsetValidationGroup());
+    }
 }
 
 class HydratorWithCrypto implements HydratorInterface
