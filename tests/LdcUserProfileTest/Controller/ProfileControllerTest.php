@@ -34,6 +34,7 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $this->mockModuleOptions = new \LdcUserProfile\Options\ModuleOptions();
 
         $sl = new ServiceManager();
+        $sl->setAllowOverride(true);
         $sl->setService('zfcuser_user_service', $this->mockUserService);
         $sl->setService('ldc-user-profile_service', $this->mockProfileService);
         $sl->setService('ldc-user-profile_module_options', $this->mockModuleOptions);
@@ -59,8 +60,9 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller->setServiceLocator($sl);
         $this->controller->setEvent($this->event);
 
-        $this->mockUserPlugin = \Mockery::mock('ZfcUser\Controller\Plugin\ZfcUserAuthentication[getIdentity]');
+        $this->mockUserPlugin = \Mockery::mock('ZfcUser\Controller\Plugin\ZfcUserAuthentication[getIdentity,hasIdentity]');
         $this->mockUserPlugin->shouldReceive('getIdentity')->andReturn($this->mockUserEntity);
+        $this->mockUserPlugin->shouldReceive('hasIdentity')->andReturn(true);
 
         $this->mockUrlPlugin = \Mockery::mock('Zend\Mvc\Controller\Plugin\Url[fromRoute]');
         $this->mockUrlPlugin->shouldReceive('fromRoute')->andReturn('/');
@@ -187,5 +189,24 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->controller->setServiceLocator($serviceLocator);
         $this->assertSame($this->mockOptions, $this->controller->getModuleOptions());
+    }
+
+    public function testControllerIsProtectedFromUnauthorizedUsers()
+    {
+        $this->mockUserPlugin = \Mockery::mock('ZfcUser\Controller\Plugin\ZfcUserAuthentication[getIdentity,hasIdentity]');
+        $this->mockUserPlugin->shouldReceive('getIdentity')->andReturn(null);
+        $this->mockUserPlugin->shouldReceive('hasIdentity')->andReturn(false);
+        $this->controller->getPluginManager()->setService('zfcUserAuthentication', $this->mockUserPlugin);
+
+        $this->event->setResponse($this->controller->getResponse());
+
+        $this->mockProfileService = \Mockery::mock('LdcUserProfile\Service\ProfileService');
+        $this->mockProfileService->shouldReceive('constructFormForUser')->never();
+        $this->controller->getServiceLocator()->setService('ldc-user-profile_service', $this->mockProfileService);
+
+        $result = $this->controller->indexAction();
+
+        $this->assertInstanceOf('Zend\Http\Response', $result);
+        $this->assertTrue($result->isRedirect());
     }
 }

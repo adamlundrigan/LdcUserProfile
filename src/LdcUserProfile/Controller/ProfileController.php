@@ -24,6 +24,10 @@ class ProfileController extends AbstractActionController
 
     public function indexAction()
     {
+        if (!$this->zfcUserAuthentication()->hasIdentity()) {
+            return $this->redirect()->toRoute('zfcuser/login', array(), array('query' => array('redirect' => 'ldc-user-profile')));
+        }
+
         $form = $this->getService()->constructFormForUser($this->zfcUserAuthentication()->getIdentity());
 
         $vm = new ViewModel(array(
