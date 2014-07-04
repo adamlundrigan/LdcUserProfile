@@ -12,10 +12,12 @@ namespace LdcUserProfile\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use LdcUserProfile\Options\ModuleOptions;
 use LdcUserProfile\Service\ProfileService;
-use Zend\Form\Form;
 use Zend\View\Model\ViewModel;
 use Zend\Http\Response;
 
+/**
+ * @method \ZfcUser\Controller\Plugin\ZfcUserAuthentication zfcUserAuthentication()
+ */
 class ProfileController extends AbstractActionController
 {
     protected $moduleOptions;

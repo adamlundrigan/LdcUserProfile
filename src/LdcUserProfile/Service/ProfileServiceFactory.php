@@ -23,6 +23,7 @@ class ProfileServiceFactory implements FactoryInterface
         $service = new ProfileService();
 
         // Get the module options
+        /* @var \LdcUserProfile\Options\ModuleOptions $moduleOptions */
         $moduleOptions = $serviceLocator->get('ldc-user-profile_module_options');
         $service->setModuleOptions($moduleOptions);
 

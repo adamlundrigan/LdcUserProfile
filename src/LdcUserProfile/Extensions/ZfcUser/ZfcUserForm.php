@@ -26,7 +26,7 @@ class ZfcUserForm extends Base
      * Set Registration Options
      *
      * @param  RegistrationOptionsInterface $registrationOptions
-     * @return Register
+     * @return ZfcUserForm
      */
     public function setRegistrationOptions(RegistrationOptionsInterface $registrationOptions)
     {
