@@ -35,6 +35,13 @@ class ModuleOptions extends AbstractOptions
      */
     protected $validationGroupOverrides = array();
 
+    /**
+     * Registered extensions
+     *
+     * @var array
+     */
+    protected $registeredExtensions = array();
+
     public function getIsEnabled()
     {
         return $this->isEnabled;
@@ -72,6 +79,18 @@ class ModuleOptions extends AbstractOptions
     public function setValidationGroupOverrides(array $vg)
     {
         $this->validationGroupOverrides = $vg;
+
+        return $this;
+    }
+
+    public function getRegisteredExtensions()
+    {
+        return $this->registeredExtensions;
+    }
+
+    public function setRegisteredExtensions($registeredExtensions)
+    {
+        $this->registeredExtensions = $registeredExtensions;
 
         return $this;
     }

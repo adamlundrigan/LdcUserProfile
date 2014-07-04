@@ -22,6 +22,14 @@ $settings = array(
      */
     'validation_group_override' => array(),
 
+    /**
+     * Register extensions by adding them with their service manager key and
+     * TRUE as value. Unregister an extension by setting the value to FALSE.
+     */
+    'registered_extensions' => array(
+        'ldc-user-profile_extension_zfcuser' => true,
+    )
+
 );
 
 /**
