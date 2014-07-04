@@ -8,6 +8,11 @@
 $settings = array(
 
     /**
+     * Switch to enable/disable profile page
+     */
+    'is_enabled' => true,
+ 
+    /**
      * URL path at which to mount the profile controller
      */
     'url_path' => '/user/profile',
