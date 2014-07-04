@@ -16,6 +16,7 @@ class ProfileServiceFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateService()
     {
         $mockModuleOptions = \Mockery::mock('LdcUserProfile\Options\ModuleOptions');
+        $mockModuleOptions->shouldReceive('getRegisteredExtensions')->andReturn(array());
 
         $serviceManager = new \Zend\ServiceManager\ServiceManager();
         $serviceManager->setService('ldc-user-profile_module_options', $mockModuleOptions);
