@@ -14,7 +14,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class PrototypeForm extends Form
 {
-    public function __construct($name = NULL, $options = array())
+    public function __construct($name = null, $options = array())
     {
         parent::__construct($name ?: 'ldc-user-profile', $options);
 
