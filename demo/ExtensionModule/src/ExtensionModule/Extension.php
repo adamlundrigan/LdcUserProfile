@@ -13,6 +13,8 @@ use LdcUserProfile\Extensions\AbstractExtension;
 
 class Extension extends AbstractExtension
 {
+
+    protected $session;
     
     public function getName() 
     {
