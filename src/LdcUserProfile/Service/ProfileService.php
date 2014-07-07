@@ -55,6 +55,16 @@ class ProfileService
         return $this->extensions;
     }
 
+    public function hasExtension($nameOrInstance)
+    {
+        return array_key_Exists(
+            $nameOrInstance instanceof AbstractExtension
+                ? $nameOrInstance->getName()
+                : (string) $nameOrInstance,
+            $this->extensions
+        );
+    }
+
     public function constructFormForUser(UserInterface $user)
     {
         $form = clone $this->getFormPrototype();

@@ -10,17 +10,9 @@
 namespace LdcUserProfile;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\Mvc\MvcEvent;
 
 class Module implements AutoloaderProviderInterface
 {
-    public function onBootstrap(MvcEvent $e)
-    {
-        $sm = $e->getApplication()->getServiceManager();
-        $sm->get('ldc-user-profile_service')->registerExtension(
-	        $sm->get('ldc-user-profile_extension_zfcuser')
-        );
-    }
 
     public function getAutoloaderConfig()
     {

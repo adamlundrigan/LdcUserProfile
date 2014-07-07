@@ -14,6 +14,13 @@ use ZfcUser\Options\RegistrationOptionsInterface;
 
 class ZfcUserInputFilter extends RegisterFilter
 {
+
+    /**
+     * Constructor
+     *
+     * @param Validator\NoOtherRecordExists $emailValidator
+     * @param Validator\NoOtherRecordExists $usernameValidator
+     */
     public function __construct($emailValidator, $usernameValidator, RegistrationOptionsInterface $options)
     {
         parent::__construct($emailValidator, $usernameValidator, $options);
