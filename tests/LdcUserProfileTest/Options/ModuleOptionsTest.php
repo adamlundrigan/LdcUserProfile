@@ -48,4 +48,22 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $this->options->getValidationGroupOverrides());
     }
 
+    public function testSetValidationGroupOverridesRequiresArray()
+    {
+        $this->setExpectedException('PHPUnit_Framework_Error');
+        $this->options->setValidationGroupOverrides('foo');
+    }
+
+    public function testGetSetRegisteredExtensions()
+    {
+        $data = array('foo', 'bar');
+        $this->options->setRegisteredExtensions($data);
+        $this->assertEquals($data, $this->options->getRegisteredExtensions());
+    }
+
+    public function testSetRegisteredExtensionsRequiresArray()
+    {
+        $this->setExpectedException('PHPUnit_Framework_Error');
+        $this->options->setRegisteredExtensions('foo');
+    }
 }

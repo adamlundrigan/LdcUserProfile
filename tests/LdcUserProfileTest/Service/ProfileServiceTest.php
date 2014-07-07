@@ -46,6 +46,12 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->registerExtension(new \stdClass());
     }
 
+    public function testRegisterExtensionRejectsNullExtension()
+    {
+        $this->setExpectedException('PHPUnit_Framework_Error');
+        $this->service->registerExtension(null);
+    }
+
     public function testUnregisterExtensionByInstance()
     {
         $ext = $this->testRegisterExtension();
@@ -60,6 +66,20 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->service->unregisterExtension($ext->getName());
         $this->assertArrayNotHasKey('testext', $this->service->getExtensions());
+    }
+
+    public function testHasExtensionByName()
+    {
+        $ext = $this->testRegisterExtension();
+
+        $this->assertTrue($this->service->hasExtension($ext->getName()));
+    }
+
+    public function testHasExtensionByInstance()
+    {
+        $ext = $this->testRegisterExtension();
+
+        $this->assertTrue($this->service->hasExtension($ext));
     }
 
     public function testSaveCallsSaveOnEachRegsiteredExtension()

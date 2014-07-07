@@ -88,9 +88,9 @@ class ModuleOptions extends AbstractOptions
         return $this->registeredExtensions;
     }
 
-    public function setRegisteredExtensions($registeredExtensions)
+    public function setRegisteredExtensions(array $ext)
     {
-        $this->registeredExtensions = $registeredExtensions;
+        $this->registeredExtensions = $ext;
 
         return $this;
     }

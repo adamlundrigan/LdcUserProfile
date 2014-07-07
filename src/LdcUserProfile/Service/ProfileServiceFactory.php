@@ -29,24 +29,17 @@ class ProfileServiceFactory implements FactoryInterface
 
         // Register/Unregister the active/inactive extensions
         foreach ($moduleOptions->getRegisteredExtensions() as $extensionName => $isActive) {
-            if ($isActive) {
-                $this->registerExtension($extensionName, $service, $serviceLocator);
-            } else {
+            if (! $isActive) {
                 $service->unregisterExtension($extensionName);
+                continue;
+            }
+
+            $extension = $serviceLocator->get($extensionName);
+            if ($extension instanceof AbstractExtension) {
+                $service->registerExtension($extension);
             }
         }
 
         return $service;
-    }
-
-    protected function registerExtension(
-        $extensionName,
-        ProfileService $service,
-        ServiceLocatorInterface $serviceLocator
-    ) {
-        $extension = $serviceLocator->get($extensionName);
-        if ($extension instanceof AbstractExtension) {
-            $service->registerExtension($extension);
-        }
     }
 }
