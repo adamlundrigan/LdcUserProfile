@@ -13,6 +13,7 @@ use LdcUserProfile\Service\ProfileService;
 use Zend\Form\Element\Text;
 use Zend\Stdlib\Hydrator\ObjectProperty;
 use Zend\Form\FormInterface;
+use Zend\EventManager\EventManager;
 
 class ProfileServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,6 +39,19 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('testext', $this->service->getExtensions());
 
         return $ext;
+    }
+
+    public function testRegisterExtensionFiresEvents()
+    {
+        $mockEventManager = new TriggerCountingEventManager();
+        $this->service->setEventManager($mockEventManager);
+
+        $this->testRegisterExtension();
+
+        $this->assertEquals(array(
+            'LdcUserProfile\Service\ProfileService::registerExtension.pre'  => 1,
+            'LdcUserProfile\Service\ProfileService::registerExtension.post' => 1,
+        ), $mockEventManager->triggeredEventCount);
     }
 
     public function testRegisterExtensionRejectsInvalidExtension()
@@ -66,6 +80,21 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->service->unregisterExtension($ext->getName());
         $this->assertArrayNotHasKey('testext', $this->service->getExtensions());
+    }
+
+    public function testUnregisterExtensionFiresEvents()
+    {
+        $ext = $this->testRegisterExtension();
+
+        $mockEventManager = new TriggerCountingEventManager();
+        $this->service->setEventManager($mockEventManager);
+
+        $this->service->unregisterExtension($ext->getName());
+
+        $this->assertEquals(array(
+            'LdcUserProfile\Service\ProfileService::unregisterExtension.pre'  => 1,
+            'LdcUserProfile\Service\ProfileService::unregisterExtension.post' => 1,
+        ), $mockEventManager->triggeredEventCount);
     }
 
     public function testHasExtensionByName()
@@ -102,6 +131,20 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->service->save($payload));
     }
 
+    public function testSaveFiresEvents()
+    {
+        $mockEventManager = new TriggerCountingEventManager();
+        $mockEventManager->matchingRegex = '{^LdcUserProfile\\\\Service\\\\ProfileService::save}is';
+        $this->service->setEventManager($mockEventManager);
+
+        $this->testSaveCallsSaveOnEachRegsiteredExtension();
+
+        $this->assertEquals(array(
+            'LdcUserProfile\Service\ProfileService::save.pre'  => 1,
+            'LdcUserProfile\Service\ProfileService::save.post' => 1,
+        ), $mockEventManager->triggeredEventCount);
+    }
+
     public function testConstructFormForUser()
     {
         $mockUserData = new \stdClass();
@@ -133,6 +176,21 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('hi', $form->get('testext')->get('test')->getValue());
         $this->assertTrue($form->getInputFilter()->has('testext'));
         $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));
+    }
+
+    public function testConstructFormForUserFiresEvents()
+    {
+        $mockEventManager = new TriggerCountingEventManager();
+        $mockEventManager->matchingRegex = '{^LdcUserProfile\\\\Service\\\\ProfileService::constructFormForUser}is';
+        $this->service->setEventManager($mockEventManager);
+
+        $this->testConstructFormForUser();
+
+        $this->assertEquals(array(
+            'LdcUserProfile\Service\ProfileService::constructFormForUser.pre'  => 1,
+            'LdcUserProfile\Service\ProfileService::constructFormForUser.extension'  => 1,
+            'LdcUserProfile\Service\ProfileService::constructFormForUser.post' => 1,
+        ), $mockEventManager->triggeredEventCount);
     }
 
     public function testConstructFormForUserObeysValidationGroupOverrides()
@@ -209,5 +267,68 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('hi', $form->get('testext')->get('test')->getValue());
         $this->assertTrue($form->getInputFilter()->has('testext'));
         $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));
+    }
+
+    public function testGetSetEventManager()
+    {
+        $mock = \Mockery::mock('Zend\EventManager\EventManagerInterface');
+        $mock->shouldReceive('setIdentifiers')->withArgs(array(array(
+            'LdcUserProfile\\Service\\ProfileService',
+            'LdcUserProfile\\Service\\ProfileService',
+        )))->andReturnNull();
+
+        $this->service->setEventManager($mock);
+        $this->assertSame($mock, $this->service->getEventManager());
+    }
+
+    public function testGetSetEventManagerAcceptsIdentifierFromInternalProperty()
+    {
+        $mock = \Mockery::mock('Zend\EventManager\EventManagerInterface');
+        $mock->shouldReceive('setIdentifiers')->withArgs(array(array(
+            'LdcUserProfile\\Service\\ProfileService',
+            'LdcUserProfileTest\\Service\\ProfileServiceWithExtraEventManagerIdentifier',
+            'someOtherIdentifier'
+        )))->andReturnNull();
+
+        $service = new ProfileServiceWithExtraEventManagerIdentifier();
+        $service->eventIdentifier = array('someOtherIdentifier');
+        $service->setEventManager($mock);
+    }
+
+    public function testGetSetEventManagerAcceptsObjectIdentifierFromInternalProperty()
+    {
+        $mock = \Mockery::mock('Zend\EventManager\EventManagerInterface');
+        $mock->shouldReceive('setIdentifiers')->withArgs(array(array(
+            'LdcUserProfile\\Service\\ProfileService',
+            'LdcUserProfileTest\\Service\\ProfileServiceWithExtraEventManagerIdentifier',
+            new \stdClass(),
+        )))->andReturnNull();
+
+        $service = new ProfileServiceWithExtraEventManagerIdentifier();
+        $service->eventIdentifier = new \stdClass();
+        $service->setEventManager($mock);
+    }
+}
+
+class ProfileServiceWithExtraEventManagerIdentifier extends ProfileService
+{
+    public $eventIdentifier = null;
+}
+
+class TriggerCountingEventManager extends EventManager
+{
+    public $triggeredEventCount = array();
+    public $matchingRegex = null;
+
+    public function trigger($event, $target = null, $argv = array(), $callback = null)
+    {
+        if ( !empty($this->matchingRegex) && !preg_match($this->matchingRegex, $event) ) {
+            return;
+        }
+
+        if ( ! isset($this->triggeredEventCount[$event]) ) {
+            $this->triggeredEventCount[$event] = 0;
+        }
+        $this->triggeredEventCount[$event]++;
     }
 }
