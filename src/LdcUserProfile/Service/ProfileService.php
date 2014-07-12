@@ -38,6 +38,11 @@ class ProfileService
      */
     protected $events;
 
+    /**
+     * @var mixed
+     */
+    protected $eventIdentifier;
+
     public function registerExtension(AbstractExtension $e)
     {
         $argv = array('extension' => $e);
@@ -185,7 +190,7 @@ class ProfileService
         if (isset($this->eventIdentifier)) {
             if ((is_string($this->eventIdentifier))
                 || (is_array($this->eventIdentifier))
-                || ($this->eventIdentifier instanceof Traversable)
+                || ($this->eventIdentifier instanceof \Traversable)
             ) {
                 $identifiers = array_unique(array_merge($identifiers, (array) $this->eventIdentifier));
             } elseif (is_object($this->eventIdentifier)) {
