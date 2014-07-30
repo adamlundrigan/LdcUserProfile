@@ -1,5 +1,10 @@
 <?php
 return array(
+    'ldc-user-profile' => array(
+        'registered_extensions' => array(
+            'ldc-user-profile_extension_zfcuser' => true,
+        ),
+    ),
     'controllers' => array(
         'invokables' => array(
             'LdcUserProfile\Controller\Profile' => 'LdcUserProfile\Controller\ProfileController',
