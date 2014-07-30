@@ -315,6 +315,88 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($formTwo->getInputFilter()->get('testext')->has('test'));
     }
 
+    public function testConstructFormForUserProcessesAllRegisteredExtensionsOnSave()
+    {
+        $mockUser = \Mockery::mock('ZfcUser\Entity\UserInterface');
+
+        // Extension A
+        $mockUserDataOne = new \stdClass();
+        $mockUserDataOne->testOne = 'hi1';
+
+        $mockFieldsetOne = \Mockery::mock('Zend\Form\Fieldset[getName,setName]');
+        $mockFieldsetOne->shouldReceive('getName')->andReturn('extone');
+        $mockFieldsetOne->shouldReceive('setName')->withArgs(array('extone'));
+        $mockFieldsetOne->add(new Text('testOne'));
+        $mockFieldsetOne->setHydrator(new ObjectProperty());
+        $mockFieldsetOne->setObject(new \stdClass());
+
+        $mockInputFilterOne = new \Zend\InputFilter\InputFilter();
+        $mockInputFilterOne->add(new \Zend\InputFilter\Input('testOne'));
+
+        $extOne = \Mockery::mock('LdcUserProfile\Extensions\AbstractExtension');
+        $extOne->shouldReceive('getName')->andReturn('extone');
+        $extOne->shouldReceive('getFieldset')->andReturn($mockFieldsetOne);
+        $extOne->shouldReceive('getInputFilter')->andReturn($mockInputFilterOne);
+        $extOne->shouldReceive('getObjectForUser')->withArgs(array($mockUser))->andReturn($mockUserDataOne);
+        $extOne->shouldReceive('getFieldsetValidationGroup')->andReturn(null);
+        $extOne->shouldReceive('save')->once()->andReturn(false);
+        $this->service->registerExtension($extOne);
+
+        // Extension B
+        $mockUserDataTwo = new \stdClass();
+        $mockUserDataTwo->testTwo = 'hi2';
+
+        $mockFieldsetTwo = \Mockery::mock('Zend\Form\Fieldset[getName,setName]');
+        $mockFieldsetTwo->shouldReceive('getName')->andReturn('exttwo');
+        $mockFieldsetTwo->shouldReceive('setName')->withArgs(array('exttwo'));
+        $mockFieldsetTwo->add(new Text('testTwo'));
+        $mockFieldsetTwo->setHydrator(new ObjectProperty());
+        $mockFieldsetTwo->setObject(new \stdClass());
+
+        $mockInputFilterTwo = new \Zend\InputFilter\InputFilter();
+        $mockInputFilterTwo->add(new \Zend\InputFilter\Input('testTwo'));
+
+        $extTwo = \Mockery::mock('LdcUserProfile\Extensions\AbstractExtension');
+        $extTwo->shouldReceive('getName')->andReturn('exttwo');
+        $extTwo->shouldReceive('getFieldset')->andReturn($mockFieldsetTwo);
+        $extTwo->shouldReceive('getInputFilter')->andReturn($mockInputFilterTwo);
+        $extTwo->shouldReceive('getObjectForUser')->withArgs(array($mockUser))->andReturn($mockUserDataTwo);
+        $extTwo->shouldReceive('getFieldsetValidationGroup')->andReturn(null);
+        $extTwo->shouldReceive('save')->once()->andReturn(true);
+        $this->service->registerExtension($extTwo);
+
+        $form = $this->service->constructFormForUser($mockUser);
+
+        $this->assertInstanceOf('Zend\Form\FormInterface', $form);
+        $this->assertTrue($form->has('extone'));
+        $this->assertTrue($form->get('extone')->has('testOne'));
+        $this->assertEquals('hi1', $form->get('extone')->get('testOne')->getValue());
+        $this->assertTrue($form->getInputFilter()->has('extone'));
+        $this->assertTrue($form->getInputFilter()->get('extone')->has('testOne'));
+        $this->assertTrue($form->has('exttwo'));
+        $this->assertTrue($form->get('exttwo')->has('testTwo'));
+        $this->assertEquals('hi2', $form->get('exttwo')->get('testTwo')->getValue());
+        $this->assertTrue($form->getInputFilter()->has('exttwo'));
+        $this->assertTrue($form->getInputFilter()->get('exttwo')->has('testTwo'));
+
+        $form->setData(array(
+            'extone' => array( 'testOne' => 'zzzz' ),
+            'exttwo' => array( 'testTwo' => '42' ),
+        ));
+        $this->assertTrue($form->isValid());
+
+        $entity = $form->getData();
+        $this->assertInstanceOf('stdClass', $entity);
+        $this->assertObjectHasAttribute('extone', $entity);
+        $this->assertObjectHasAttribute('testOne', $entity->extone);
+        $this->assertEquals('zzzz', $entity->extone->testOne);
+        $this->assertObjectHasAttribute('exttwo', $entity);
+        $this->assertObjectHasAttribute('testTwo', $entity->exttwo);
+        $this->assertEquals('42', $entity->exttwo->testTwo);
+
+        $this->assertFalse($this->service->save($entity));
+    }
+
     public function testGetSetEventManager()
     {
         $mock = \Mockery::mock('Zend\EventManager\EventManagerInterface');

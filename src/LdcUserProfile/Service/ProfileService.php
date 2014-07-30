@@ -131,7 +131,9 @@ class ProfileService
 
         $result = true;
         foreach ( $this->getExtensions() as $name => $ext ) {
-            $result = $result && $ext->save($entity);
+            if ( ! $ext->save($entity) ) {
+                $result = false;
+            }
         }
 
         unset($argv['extension']);
