@@ -74,8 +74,8 @@ class ProfileService
 
         $validationGroup = array();
         foreach ( $this->getExtensions() as $name => $ext ) {
-            $form->add($ext->getFieldset(), array('name' => $name));
-            $form->getInputFilter()->add($ext->getInputFilter(), $name);
+            $form->add(clone $ext->getFieldset(), array('name' => $name));
+            $form->getInputFilter()->add(clone $ext->getInputFilter(), $name);
             $entity->{$name} = $ext->getObjectForUser($user);
 
             // Process validation group + overrides

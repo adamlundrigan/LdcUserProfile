@@ -210,4 +210,51 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->getInputFilter()->has('testext'));
         $this->assertTrue($form->getInputFilter()->get('testext')->has('test'));
     }
+
+    public function testConstructFormForUserCanBeUsedMultipleTimesPerRequest()
+    {
+        $mockUserDataOne = new \stdClass();
+        $mockUserDataOne->test = 'hi1';
+
+        $mockUserDataTwo = new \stdClass();
+        $mockUserDataTwo->test = 'hi2';
+
+        $mockFieldset = \Mockery::mock('Zend\Form\Fieldset[getName,setName]');
+        $mockFieldset->shouldReceive('getName')->andReturn('testext');
+        $mockFieldset->shouldReceive('setName')->withArgs(array('testext'));
+        $mockFieldset->add(new Text('test'));
+        $mockFieldset->setHydrator(new ObjectProperty());
+        $mockFieldset->setObject(new \stdClass());
+
+        $mockInputFilter = new \Zend\InputFilter\InputFilter();
+        $mockInputFilter->add(new \Zend\InputFilter\Input('test'));
+
+        $mockUserOne = \Mockery::mock('ZfcUser\Entity\UserInterface');
+        $mockUserTwo = \Mockery::mock('ZfcUser\Entity\UserInterface');
+
+        $ext = $this->testRegisterExtension();
+        $ext->shouldReceive('getFieldset')->andReturn($mockFieldset);
+        $ext->shouldReceive('getInputFilter')->andReturn($mockInputFilter);
+        $ext->shouldReceive('getObjectForUser')->withArgs(array($mockUserOne))->andReturn($mockUserDataOne);
+        $ext->shouldReceive('getObjectForUser')->withArgs(array($mockUserTwo))->andReturn($mockUserDataTwo);
+        $ext->shouldReceive('getFieldsetValidationGroup')->andReturn(FormInterface::VALIDATE_ALL);
+
+        $formOne = $this->service->constructFormForUser($mockUserOne);
+        $formTwo = $this->service->constructFormForUser($mockUserTwo);
+
+        $this->assertInstanceOf('Zend\Form\FormInterface', $formOne);
+        $this->assertTrue($formOne->has('testext'));
+        $this->assertTrue($formOne->get('testext')->has('test'));
+        $this->assertEquals('hi1', $formOne->get('testext')->get('test')->getValue());
+        $this->assertTrue($formOne->getInputFilter()->has('testext'));
+        $this->assertTrue($formOne->getInputFilter()->get('testext')->has('test'));
+
+        $this->assertInstanceOf('Zend\Form\FormInterface', $formTwo);
+        $this->assertTrue($formTwo->has('testext'));
+        $this->assertTrue($formTwo->get('testext')->has('test'));
+        $this->assertEquals('hi2', $formTwo->get('testext')->get('test')->getValue());
+        $this->assertTrue($formTwo->getInputFilter()->has('testext'));
+        $this->assertTrue($formTwo->getInputFilter()->get('testext')->has('test'));
+    }
+
 }
