@@ -106,8 +106,8 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $req = $this->controller->getRequest();
         $req->setMethod(Request::METHOD_POST);
-        $req->getPost()->set('foo', ['bar' => 'baz']);
-        $req->getPost()->set('zfcuser', ['id' => 42]);
+        $req->getPost()->set('foo', array('bar' => 'baz'));
+        $req->getPost()->set('zfcuser', array('id' => 42));
 
         $postData = $req->getPost()->toArray();
         $mockResult = new \stdClass();
@@ -135,8 +135,8 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $req = $this->controller->getRequest();
         $req->setMethod(Request::METHOD_POST);
-        $req->getPost()->set('foo', ['bar' => 'baz']);
-        $req->getPost()->set('zfcuser', ['id' => 42]);
+        $req->getPost()->set('foo', array('bar' => 'baz'));
+        $req->getPost()->set('zfcuser', array('id' => 42));
 
         $postData = $req->getPost()->toArray();
         $mockResult = new \stdClass();
@@ -162,8 +162,8 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $req = $this->controller->getRequest();
         $req->setMethod(Request::METHOD_POST);
-        $req->getPost()->set('foo', ['bar' => 'baz']);
-        $req->getPost()->set('zfcuser', ['id' => 42]);
+        $req->getPost()->set('foo', array('bar' => 'baz'));
+        $req->getPost()->set('zfcuser', array('id' => 42));
 
         $postData = $req->getPost()->toArray();
         $mockResult = new \stdClass();
