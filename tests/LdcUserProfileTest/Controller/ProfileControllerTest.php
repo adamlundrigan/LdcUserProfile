@@ -23,6 +23,7 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mockUserEntity = new \ZfcUser\Entity\User();
+        $this->mockUserEntity->setId(42);
 
         $this->mockUserService = \Mockery::mock('ZfcUser\Service\User');
 
@@ -105,7 +106,8 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $req = $this->controller->getRequest();
         $req->setMethod(Request::METHOD_POST);
-        $req->getPost()->set('foo', 'bar');
+        $req->getPost()->set('foo', ['bar' => 'baz']);
+        $req->getPost()->set('zfcuser', ['id' => 42]);
 
         $postData = $req->getPost()->toArray();
         $mockResult = new \stdClass();
@@ -133,7 +135,8 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $req = $this->controller->getRequest();
         $req->setMethod(Request::METHOD_POST);
-        $req->getPost()->set('foo', 'bar');
+        $req->getPost()->set('foo', ['bar' => 'baz']);
+        $req->getPost()->set('zfcuser', ['id' => 42]);
 
         $postData = $req->getPost()->toArray();
         $mockResult = new \stdClass();
@@ -159,7 +162,8 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $req = $this->controller->getRequest();
         $req->setMethod(Request::METHOD_POST);
-        $req->getPost()->set('foo', 'bar');
+        $req->getPost()->set('foo', ['bar' => 'baz']);
+        $req->getPost()->set('zfcuser', ['id' => 42]);
 
         $postData = $req->getPost()->toArray();
         $mockResult = new \stdClass();

@@ -46,6 +46,9 @@ class ProfileController extends AbstractActionController
 
         $fm = $this->flashMessenger()->setNamespace('ldc-user-profile');
 
+        // Ensure that the user can't change the account ID during update
+        $prg['zfcuser']['id'] = $this->zfcUserAuthentication()->getIdentity()->getId();
+
         $form->setData($prg);
         if ( ! $form->isValid() ) {
             $fm->addErrorMessage('One or more of the values you provided is invalid.');
