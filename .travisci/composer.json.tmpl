@@ -1,0 +1,32 @@
+{
+    "name": "adamlundrigan/ldc-user-profile",
+    "description": "User profile extension for ZfcUser",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Adam Lundrigan",
+            "email": "adam@lundrigan.ca"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com"
+        }
+    ],
+    "require": {
+        "zendframework/zendframework": "{{VERSION}}",
+        "zf-commons/zfc-user": "1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.1",
+        "mockery/mockery": "~0.9",
+        "fabpot/php-cs-fixer": "@stable"
+    },
+    "autoload": {
+        "files": [ "Module.php" ],
+        "psr-0": {
+            "LdcUserProfile\\": "src/"
+        }
+    }
+}
