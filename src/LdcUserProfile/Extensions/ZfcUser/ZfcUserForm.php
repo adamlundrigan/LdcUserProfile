@@ -9,17 +9,17 @@
 
 namespace LdcUserProfile\Extensions\ZfcUser;
 
-use ZfcUser\Form\Base;
+use ZfcUser\Form\Register;
 use ZfcUser\Options\RegistrationOptionsInterface;
 
-class ZfcUserForm extends Base
+class ZfcUserForm extends Register
 {
     protected $registrationOptions;
 
-    public function __construct(RegistrationOptionsInterface $registrationOptions)
+    public function __construct($name, RegistrationOptionsInterface $registrationOptions)
     {
         $this->setRegistrationOptions($registrationOptions);
-        parent::__construct();
+        parent::__construct($name, $registrationOptions);
     }
 
     /**

@@ -22,7 +22,7 @@ class ZfcUserFieldsetFactory implements FactoryInterface
         $options = $serviceLocator->get('zfcuser_module_options');
         $entityClass = $options->getUserEntityClass();
 
-        $object = new ZfcUserFieldset(new ZfcUserForm($options));
+        $object = new ZfcUserFieldset(new ZfcUserForm(null, $options));
         $object->setHydrator($serviceLocator->get('zfcuser_user_hydrator'));
         $object->setObject(new $entityClass());
 
