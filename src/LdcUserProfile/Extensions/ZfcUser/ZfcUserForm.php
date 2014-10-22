@@ -16,10 +16,10 @@ class ZfcUserForm extends Register
 {
     protected $registrationOptions;
 
-    public function __construct($name, RegistrationOptionsInterface $registrationOptions)
+    public function __construct(RegistrationOptionsInterface $registrationOptions)
     {
         $this->setRegistrationOptions($registrationOptions);
-        parent::__construct($name, $registrationOptions);
+        parent::__construct(null, $registrationOptions);
     }
 
     /**
