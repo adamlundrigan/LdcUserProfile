@@ -111,6 +111,31 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->service->hasExtension($ext));
     }
 
+    public function testValidateFiresEvents()
+    {
+        $mockEventManager = new TriggerCountingEventManager();
+        $mockEventManager->matchingRegex = '{^LdcUserProfile\\\\Service\\\\ProfileService::validate}is';
+        $this->service->setEventManager($mockEventManager);
+
+        $this->testValidate();
+
+        $this->assertEquals(array(
+            'LdcUserProfile\Service\ProfileService::validate.pre'  => 1,
+            'LdcUserProfile\Service\ProfileService::validate.post' => 1,
+        ), $mockEventManager->triggeredEventCount);
+    }
+
+    public function testValidate()
+    {
+        $data = [];
+
+        $mockForm = \Mockery::mock('Zend\Form\FormInterface');
+        $mockForm->shouldReceive('setData')->with($data)->andReturnNull();
+        $mockForm->shouldReceive('isValid')->andReturn(true);
+
+        $this->assertTrue($this->service->validate($mockForm, $data));
+    }
+
     public function testSaveCallsSaveOnEachRegsiteredExtension()
     {
         $payload = new \stdClass();

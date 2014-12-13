@@ -91,6 +91,8 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testControllerDispatchedWithInvalidSubmittedFormDataWillPerformRedirect()
     {
+        $this->mockProfileService->shouldReceive('validate')->withArgs(array($this->mockForm, array()))->andReturn(false);
+
         $this->controller->getRequest()->setMethod(Request::METHOD_POST);
         $this->event->setResponse($this->controller->getResponse());
 
@@ -110,6 +112,8 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $req->getPost()->set('zfcuser', array('id' => 42));
 
         $postData = $req->getPost()->toArray();
+        $this->mockProfileService->shouldReceive('validate')->withArgs(array($this->mockForm, $postData))->andReturn(true);
+
         $mockResult = new \stdClass();
 
         $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\PostRedirectGet[__invoke]]');
@@ -117,8 +121,6 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $pm = $this->controller->getPluginManager();
         $pm->setService('prg', $mockPrg);
 
-        $this->mockForm->shouldReceive('setData')->withArgs(array($postData));
-        $this->mockForm->shouldReceive('isValid')->andReturn(true);
         $this->mockForm->shouldReceive('getData')->andReturn($mockResult);
 
         $this->mockProfileService->shouldReceive('save')->withArgs(array($mockResult))->andReturn(true);
@@ -146,8 +148,7 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $pm = $this->controller->getPluginManager();
         $pm->setService('prg', $mockPrg);
 
-        $this->mockForm->shouldReceive('setData')->withArgs(array($postData));
-        $this->mockForm->shouldReceive('isValid')->andReturn(false);
+        $this->mockProfileService->shouldReceive('validate')->withArgs(array($this->mockForm, $postData))->andReturn(false);
 
         $result = $this->controller->indexAction();
 
@@ -173,10 +174,9 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $pm = $this->controller->getPluginManager();
         $pm->setService('prg', $mockPrg);
 
-        $this->mockForm->shouldReceive('setData')->withArgs(array($postData));
-        $this->mockForm->shouldReceive('isValid')->andReturn(true);
         $this->mockForm->shouldReceive('getData')->andReturn($mockResult);
 
+        $this->mockProfileService->shouldReceive('validate')->withArgs(array($this->mockForm, $postData))->andReturn(true);
         $this->mockProfileService->shouldReceive('save')->withArgs(array($mockResult))->andReturn(false);
 
         $result = $this->controller->indexAction();

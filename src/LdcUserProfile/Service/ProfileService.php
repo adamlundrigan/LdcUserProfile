@@ -84,6 +84,18 @@ class ProfileService
         );
     }
 
+    public function validate(FormInterface $form, array $data)
+    {
+        $argv = compact('form','data');
+
+        $this->getEventManager()->trigger(__METHOD__ . '.pre', $this, $argv);
+        $form->setData($data);
+        $isValid = $form->isValid();
+        $this->getEventManager()->trigger(__METHOD__ . '.post', $this, $argv + ['success' => $isValid]);
+
+        return $isValid;
+    }
+
     public function constructFormForUser(UserInterface $user)
     {
         $form = clone $this->getFormPrototype();
