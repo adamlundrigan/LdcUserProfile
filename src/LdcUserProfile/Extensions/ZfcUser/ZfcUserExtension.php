@@ -34,9 +34,9 @@ class ZfcUserExtension extends AbstractExtension
     public function getFieldsetValidationGroup()
     {
         $parentvg = parent::getFieldsetValidationGroup();
-        if ( empty($parentvg) ) {
+        if (empty($parentvg)) {
             $parentvg = array();
-            foreach ( $this->getFieldset()->getElements() as $element ) {
+            foreach ($this->getFieldset()->getElements() as $element) {
                 array_push($parentvg, $element->getName());
             }
             $this->setFieldsetValidationGroup($parentvg);
@@ -62,15 +62,15 @@ class ZfcUserExtension extends AbstractExtension
 
     public function save($entity)
     {
-        if ( ! isset($entity->zfcuser) || ! $entity->zfcuser instanceof UserInterface ) {
+        if (! isset($entity->zfcuser) || ! $entity->zfcuser instanceof UserInterface) {
             throw new \RuntimeException('Entity must implement ZfcUser\Entity\UserInterface');
         }
 
         // If the user specified a new password, hash it
         $password = $entity->zfcuser->getPassword();
-        if ( ! empty($password) ) {
+        if (! empty($password)) {
             $hydrator = $this->getFieldset()->getHydrator();
-            if ( method_exists($hydrator, 'getCryptoService') ) {
+            if (method_exists($hydrator, 'getCryptoService')) {
                 // ZfcUser dev-master
                 $hash = $this->getFieldset()->getHydrator()->getCryptoService()->create($password);
             } else {
@@ -105,7 +105,7 @@ class ZfcUserExtension extends AbstractExtension
         $existingEntity->setState($newEntity->getState());
 
         $passwordHash = $newEntity->getPassword();
-        if ( ! empty($passwordHash) ) {
+        if (! empty($passwordHash)) {
             $existingEntity->setPassword($passwordHash);
         }
     }

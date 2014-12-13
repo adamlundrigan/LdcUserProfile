@@ -13,7 +13,6 @@ use LdcUserProfile\Extensions\ZfcUser\ZfcUserFieldset;
 
 class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider providerFieldWillAddTheStandardProfileFieldsFromBaseFormWhenTheyArePresent
      */
@@ -54,5 +53,4 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
             array(array('userId' => 1, 'username' => 1, 'email' => 1, 'display_name' => 1, 'password' => 1, 'passwordVerify' => 0)),
         );
     }
-
 }

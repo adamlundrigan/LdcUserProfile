@@ -14,7 +14,6 @@ use ZfcUser\Options\RegistrationOptionsInterface;
 
 class ZfcUserInputFilter extends RegisterFilter
 {
-
     /**
      * Constructor
      *

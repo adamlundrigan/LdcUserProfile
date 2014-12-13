@@ -185,7 +185,13 @@ class ZfcUserExtensionTest extends AbstractExtensionTest
 
 class HydratorWithCrypto implements HydratorInterface
 {
-    public function extract($object) {}
-    public function hydrate(array $data, $object) {}
-    public function getCryptoService() {}
+    public function extract($object)
+    {
+    }
+    public function hydrate(array $data, $object)
+    {
+    }
+    public function getCryptoService()
+    {
+    }
 }

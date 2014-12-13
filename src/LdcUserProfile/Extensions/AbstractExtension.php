@@ -83,5 +83,4 @@ abstract class AbstractExtension
     abstract public function getObjectForUser(UserInterface $user);
 
     abstract public function getName();
-
 }

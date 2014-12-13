@@ -243,7 +243,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $ext->shouldReceive('getFieldsetValidationGroup')->andReturn(array('test'))->once();
 
         $this->service->getModuleOptions()->setValidationGroupOverrides(array(
-            'testext' => array('test')
+            'testext' => array('test'),
         ));
 
         $form = $this->service->constructFormForUser($mockUser);
@@ -281,7 +281,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $ext->shouldReceive('getFieldsetValidationGroup')->andReturn(array())->once();
 
         $this->service->getModuleOptions()->setValidationGroupOverrides(array(
-            'testext' => array()
+            'testext' => array(),
         ));
 
         $form = $this->service->constructFormForUser($mockUser);
@@ -440,7 +440,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $mock->shouldReceive('setIdentifiers')->withArgs(array(array(
             'LdcUserProfile\\Service\\ProfileService',
             'LdcUserProfileTest\\Service\\ProfileServiceWithExtraEventManagerIdentifier',
-            'someOtherIdentifier'
+            'someOtherIdentifier',
         )))->andReturnNull();
 
         $service = new ProfileServiceWithExtraEventManagerIdentifier();
@@ -475,11 +475,11 @@ class TriggerCountingEventManager extends EventManager
 
     public function trigger($event, $target = null, $argv = array(), $callback = null)
     {
-        if ( !empty($this->matchingRegex) && !preg_match($this->matchingRegex, $event) ) {
+        if (!empty($this->matchingRegex) && !preg_match($this->matchingRegex, $event)) {
             return;
         }
 
-        if ( ! isset($this->triggeredEventCount[$event]) ) {
+        if (! isset($this->triggeredEventCount[$event])) {
             $this->triggeredEventCount[$event] = 0;
         }
         $this->triggeredEventCount[$event]++;

@@ -27,7 +27,7 @@ class ModuleOptionsFactoryTest extends \PHPUnit_Framework_TestCase
         $serviceManager = new \Zend\ServiceManager\ServiceManager();
         $serviceManager->setService('Config', array(
             'ldc-user-profile' => array(
-                'url_path' => '/foo/bar'
+                'url_path' => '/foo/bar',
             ),
         ));
 

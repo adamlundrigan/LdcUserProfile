@@ -49,13 +49,13 @@ class ProfileController extends AbstractActionController
         // Ensure that the user can't change the account ID during update
         $prg['zfcuser']['id'] = $this->zfcUserAuthentication()->getIdentity()->getId();
 
-        if ( ! $this->getService()->validate($form, $prg) ) {
+        if (! $this->getService()->validate($form, $prg)) {
             $fm->addErrorMessage('One or more of the values you provided is invalid.');
 
             return $vm;
         }
 
-        if ( ! $this->getService()->save($form->getData()) ) {
+        if (! $this->getService()->save($form->getData())) {
             $fm->addErrorMessage('There was a problem saving your profile update.');
 
             return $vm;

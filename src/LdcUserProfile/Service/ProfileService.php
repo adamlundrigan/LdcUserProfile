@@ -47,9 +47,9 @@ class ProfileService
     {
         $argv = array('extension' => $e);
 
-        $this->getEventManager()->trigger(__METHOD__ . '.pre', $this, $argv);
+        $this->getEventManager()->trigger(__METHOD__.'.pre', $this, $argv);
         $this->extensions[$e->getName()] = $e;
-        $this->getEventManager()->trigger(__METHOD__ . '.post', $this, $argv);
+        $this->getEventManager()->trigger(__METHOD__.'.post', $this, $argv);
 
         return $this;
     }
@@ -58,13 +58,13 @@ class ProfileService
     {
         $argv = array('extension' => $nameOrInstance);
 
-        $this->getEventManager()->trigger(__METHOD__ . '.pre', $this, $argv);
+        $this->getEventManager()->trigger(__METHOD__.'.pre', $this, $argv);
         unset($this->extensions[
             $nameOrInstance instanceof AbstractExtension
                 ? $nameOrInstance->getName()
                 : (string) $nameOrInstance]
         );
-        $this->getEventManager()->trigger(__METHOD__ . '.post', $this, $argv);
+        $this->getEventManager()->trigger(__METHOD__.'.post', $this, $argv);
 
         return $this;
     }
@@ -86,12 +86,12 @@ class ProfileService
 
     public function validate(FormInterface $form, array $data)
     {
-        $argv = compact('form','data');
+        $argv = compact('form', 'data');
 
-        $this->getEventManager()->trigger(__METHOD__ . '.pre', $this, $argv);
+        $this->getEventManager()->trigger(__METHOD__.'.pre', $this, $argv);
         $form->setData($data);
         $isValid = $form->isValid();
-        $this->getEventManager()->trigger(__METHOD__ . '.post', $this, $argv + ['success' => $isValid]);
+        $this->getEventManager()->trigger(__METHOD__.'.post', $this, $argv + ['success' => $isValid]);
 
         return $isValid;
     }
@@ -104,20 +104,20 @@ class ProfileService
 
         $vgOverrides = $this->getModuleOptions()->getValidationGroupOverrides();
 
-        $this->getEventManager()->trigger(__METHOD__ . '.pre', $this, $argv);
+        $this->getEventManager()->trigger(__METHOD__.'.pre', $this, $argv);
 
         $validationGroup = array();
-        foreach ( $this->getExtensions() as $name => $ext ) {
+        foreach ($this->getExtensions() as $name => $ext) {
             $form->add(clone $ext->getFieldset(), array('name' => $name));
             $form->getInputFilter()->add(clone $ext->getInputFilter(), $name);
             $entity->{$name} = $ext->getObjectForUser($user);
 
-            $this->getEventManager()->trigger(__METHOD__ . '.extension', $this, $argv + array(
+            $this->getEventManager()->trigger(__METHOD__.'.extension', $this, $argv + array(
                 'extension' => $ext,
             ));
 
             // Process validation group + overrides
-            if ( isset($vgOverrides[$name]) ) {
+            if (isset($vgOverrides[$name])) {
                 $ext->setFieldsetValidationGroup($vgOverrides[$name]);
             }
             $validationGroup[$name] = $ext->getFieldsetValidationGroup();
@@ -130,7 +130,7 @@ class ProfileService
         $form->bind($entity);
 
         unset($argv['extension']);
-        $this->getEventManager()->trigger(__METHOD__ . '.post', $this, $argv);
+        $this->getEventManager()->trigger(__METHOD__.'.post', $this, $argv);
 
         return $form;
     }
@@ -139,18 +139,18 @@ class ProfileService
     {
         $argv = compact('entity');
 
-        $this->getEventManager()->trigger(__METHOD__ . '.pre', $this, $argv);
+        $this->getEventManager()->trigger(__METHOD__.'.pre', $this, $argv);
 
         $result = true;
-        foreach ( $this->getExtensions() as $name => $ext ) {
-            if ( ! $ext->save($entity) ) {
+        foreach ($this->getExtensions() as $name => $ext) {
+            if (! $ext->save($entity)) {
                 $result = false;
             }
         }
 
         unset($argv['extension']);
-        $this->getEventManager()->trigger(__METHOD__ . '.post', $this, $argv + array(
-            'result' => $result
+        $this->getEventManager()->trigger(__METHOD__.'.post', $this, $argv + array(
+            'result' => $result,
         ));
 
         return $result;
@@ -158,7 +158,7 @@ class ProfileService
 
     public function getFormPrototype()
     {
-        if ( is_null($this->formPrototype) ) {
+        if (is_null($this->formPrototype)) {
             $this->formPrototype = new PrototypeForm();
         }
 

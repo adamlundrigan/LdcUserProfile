@@ -22,7 +22,7 @@ class PrototypeForm extends Form
         $this->setHydrator(new ObjectProperty());
 
         $submitElement = new \Zend\Form\Element\Button('submit');
-        $submitElement->setLabel('Save Changes')->setAttributes(array('type'  => 'submit',));
-        $this->add($submitElement, array('priority' => -1000,));
+        $submitElement->setLabel('Save Changes')->setAttributes(array('type'  => 'submit'));
+        $this->add($submitElement, array('priority' => -1000));
     }
 }

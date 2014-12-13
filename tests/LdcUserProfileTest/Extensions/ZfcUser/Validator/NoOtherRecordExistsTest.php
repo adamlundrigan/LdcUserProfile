@@ -22,7 +22,7 @@ class NoOtherRecordExistsTest extends \PHPUnit_Framework_TestCase
 
         $validator = new NoOtherRecordExists(array(
             'mapper' => $mockMapper,
-            'key'    => 'username'
+            'key'    => 'username',
         ));
 
         $this->assertFalse($validator->isValid('foobar', array('id' => 123)));
@@ -38,7 +38,7 @@ class NoOtherRecordExistsTest extends \PHPUnit_Framework_TestCase
 
         $validator = new NoOtherRecordExists(array(
             'mapper' => $mockMapper,
-            'key'    => 'username'
+            'key'    => 'username',
         ));
 
         $this->assertTrue($validator->isValid('foobar', array('id' => 123)));
@@ -51,7 +51,7 @@ class NoOtherRecordExistsTest extends \PHPUnit_Framework_TestCase
 
         $validator = new NoOtherRecordExists(array(
             'mapper' => $mockMapper,
-            'key'    => 'username'
+            'key'    => 'username',
         ));
 
         $this->assertTrue($validator->isValid('foobar', array('id' => 123)));
