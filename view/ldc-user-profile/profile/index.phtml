@@ -14,7 +14,7 @@ $form->setAttribute('method', 'post');
 <?php echo $this->form()->openTag($form) ?>
     <dl class="zend_form">
     <?php foreach ($form->getFieldsets() as $fieldset): ?>
-        <?php echo $this->render('ldc-user-profile/profile/extension/' . $fieldset->getName(), array('fieldset' => $fieldset)); ?>
+        <?php echo $this->render('ldc-user-profile/profile/extension/' . $fieldset->getName(), array('fieldset' => $fieldset, 'options' => $options)); ?>
     <?php endforeach ?>
 
     <?php foreach ($form->getElements() as $element): ?>
