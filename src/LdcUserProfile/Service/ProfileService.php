@@ -91,7 +91,7 @@ class ProfileService
         $this->getEventManager()->trigger(__METHOD__.'.pre', $this, $argv);
         $form->setData($data);
         $isValid = $form->isValid();
-        $this->getEventManager()->trigger(__METHOD__.'.post', $this, $argv + ['success' => $isValid]);
+        $this->getEventManager()->trigger(__METHOD__.'.post', $this, $argv + array('success' => $isValid));
 
         return $isValid;
     }
