@@ -91,7 +91,13 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testControllerDispatchedWithInvalidSubmittedFormDataWillPerformRedirect()
     {
-        $this->mockProfileService->shouldReceive('validate')->withArgs(array($this->mockForm, array()))->andReturn(false);
+        $mockResponse = \Mockery::mock('Zend\Http\Response');
+        $mockResponse->shouldReceive('isRedirect')->andReturn(true);
+
+        $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\FilePostRedirectGet[__invoke]');
+        $mockPrg->shouldReceive('__invoke')->andReturn($mockResponse);
+        $pm = $this->controller->getPluginManager();
+        $pm->setService('fileprg', $mockPrg);
 
         $this->controller->getRequest()->setMethod(Request::METHOD_POST);
         $this->event->setResponse($this->controller->getResponse());
@@ -116,10 +122,10 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 
         $mockResult = new \stdClass();
 
-        $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\PostRedirectGet[__invoke]]');
+        $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\FilePostRedirectGet[__invoke]');
         $mockPrg->shouldReceive('__invoke')->andReturn($postData);
         $pm = $this->controller->getPluginManager();
-        $pm->setService('prg', $mockPrg);
+        $pm->setService('fileprg', $mockPrg);
 
         $this->mockForm->shouldReceive('getData')->andReturn($mockResult);
 
@@ -143,10 +149,10 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $postData = $req->getPost()->toArray();
         $mockResult = new \stdClass();
 
-        $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\PostRedirectGet[__invoke]]');
+        $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\FilePostRedirectGet[__invoke]');
         $mockPrg->shouldReceive('__invoke')->andReturn($postData);
         $pm = $this->controller->getPluginManager();
-        $pm->setService('prg', $mockPrg);
+        $pm->setService('fileprg', $mockPrg);
 
         $this->mockProfileService->shouldReceive('validate')->withArgs(array($this->mockForm, $postData))->andReturn(false);
 
@@ -169,10 +175,10 @@ class ProfileControllerTest extends \PHPUnit_Framework_TestCase
         $postData = $req->getPost()->toArray();
         $mockResult = new \stdClass();
 
-        $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\PostRedirectGet[__invoke]]');
+        $mockPrg = \Mockery::mock('Zend\Mvc\Controller\Plugin\FilePostRedirectGet[__invoke]');
         $mockPrg->shouldReceive('__invoke')->andReturn($postData);
         $pm = $this->controller->getPluginManager();
-        $pm->setService('prg', $mockPrg);
+        $pm->setService('fileprg', $mockPrg);
 
         $this->mockForm->shouldReceive('getData')->andReturn($mockResult);
 

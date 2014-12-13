@@ -37,7 +37,7 @@ class ProfileController extends AbstractActionController
             'options' => $this->getModuleOptions(),
         ));
 
-        $prg = $this->prg($this->url()->fromRoute('ldc-user-profile'), true);
+        $prg = $this->fileprg($form, $this->url()->fromRoute('ldc-user-profile'), true);
         if ($prg instanceof Response) {
             return $prg;
         } elseif ($prg === false) {
