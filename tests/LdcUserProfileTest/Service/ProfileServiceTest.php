@@ -127,7 +127,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testValidate()
     {
-        $data = [];
+        $data = array();
 
         $mockForm = \Mockery::mock('Zend\Form\FormInterface');
         $mockForm->shouldReceive('setData')->with($data)->andReturnNull();
