@@ -20,6 +20,16 @@ class ZfcUserForm extends Register
     {
         $this->setRegistrationOptions($registrationOptions);
         parent::__construct(null, $registrationOptions);
+
+        if (!$this->has('userId')) {
+            $this->add(array(
+                'name' => 'userId',
+                'type' => 'Zend\Form\Element\Hidden',
+                'attributes' => array(
+                    'type' => 'hidden',
+                ),
+            ));
+        }
     }
 
     /**
