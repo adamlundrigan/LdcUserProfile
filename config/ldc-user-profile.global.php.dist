@@ -20,7 +20,7 @@ $settings = array(
     /**
      * Override of default validation groups to switch editing on/off for specific fields
      */
-    'validation_group_override' => array(),
+    'validation_group_overrides' => array(),
 
     /**
      * Register extensions by adding them with their service manager key and
