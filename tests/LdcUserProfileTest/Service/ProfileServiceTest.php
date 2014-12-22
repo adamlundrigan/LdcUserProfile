@@ -425,7 +425,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetProfileForUser()
     {
         $mockUser = \Mockery::mock('ZfcUser\Entity\UserInterface');
-        
+
         $mockUserData = new \stdClass();
         $mockUserData->test = 'hi';
 
@@ -437,14 +437,14 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $expectedResult = new \stdClass();
         $expectedResult->testext = new \stdClass();
         $expectedResult->testext->test = 'hi';
-        
+
         $this->assertEquals($expectedResult, $result);
     }
 
     public function testGetProfileForUserEntityKeyReturnsNullIfUserHasNoRecordForExtension()
     {
         $mockUser = \Mockery::mock('ZfcUser\Entity\UserInterface');
-        
+
         $ext = $this->testRegisterExtension();
         $ext->shouldReceive('getObjectForUser')->withArgs(array($mockUser))->once()->andReturn(null);
 
@@ -452,10 +452,10 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = new \stdClass();
         $expectedResult->testext = null;
-        
+
         $this->assertEquals($expectedResult, $result);
     }
-    
+
     public function testGetProfileForUserFiresEvents()
     {
         $mockEventManager = new TriggerCountingEventManager();
@@ -469,7 +469,7 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
             'LdcUserProfile\Service\ProfileService::getProfileForUser.post'       => 1,
         ), $mockEventManager->triggeredEventCount);
     }
-    
+
     public function testGetSetEventManager()
     {
         $mock = \Mockery::mock('Zend\EventManager\EventManagerInterface');
