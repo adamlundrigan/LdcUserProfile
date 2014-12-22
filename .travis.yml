@@ -21,10 +21,7 @@ install:
 before_script:
 
 script:
-  - ./vendor/bin/php-cs-fixer fix -v --dry-run --fixers=-psr0,psr1,psr2 src;
-  - ./vendor/bin/php-cs-fixer fix -v --dry-run --fixers=-psr0,psr1,psr2 tests;
-  - ./vendor/bin/phpunit -c $TRAVIS_BUILD_DIR/tests/phpunit.xml
-
+  - make
 
 after_script:
   - php ocular.phar code-coverage:upload --format=php-clover tests/log/clover.xml
