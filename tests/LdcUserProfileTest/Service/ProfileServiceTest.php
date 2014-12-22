@@ -422,6 +422,54 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->service->save($entity));
     }
 
+    public function testGetProfileForUser()
+    {
+        $mockUser = \Mockery::mock('ZfcUser\Entity\UserInterface');
+        
+        $mockUserData = new \stdClass();
+        $mockUserData->test = 'hi';
+
+        $ext = $this->testRegisterExtension();
+        $ext->shouldReceive('getObjectForUser')->withArgs(array($mockUser))->once()->andReturn($mockUserData);
+
+        $result = $this->service->getProfileForUser($mockUser);
+
+        $expectedResult = new \stdClass();
+        $expectedResult->testext = new \stdClass();
+        $expectedResult->testext->test = 'hi';
+        
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testGetProfileForUserEntityKeyReturnsNullIfUserHasNoRecordForExtension()
+    {
+        $mockUser = \Mockery::mock('ZfcUser\Entity\UserInterface');
+        
+        $ext = $this->testRegisterExtension();
+        $ext->shouldReceive('getObjectForUser')->withArgs(array($mockUser))->once()->andReturn(null);
+
+        $result = $this->service->getProfileForUser($mockUser);
+
+        $expectedResult = new \stdClass();
+        $expectedResult->testext = null;
+        
+        $this->assertEquals($expectedResult, $result);
+    }
+    
+    public function testGetProfileForUserFiresEvents()
+    {
+        $mockEventManager = new TriggerCountingEventManager();
+        $mockEventManager->matchingRegex = '{^LdcUserProfile\\\\Service\\\\ProfileService::getProfileForUser}is';
+        $this->service->setEventManager($mockEventManager);
+
+        $this->testConstructFormForUser();
+
+        $this->assertEquals(array(
+            'LdcUserProfile\Service\ProfileService::getProfileForUser.pre'        => 1,
+            'LdcUserProfile\Service\ProfileService::getProfileForUser.post'       => 1,
+        ), $mockEventManager->triggeredEventCount);
+    }
+    
     public function testGetSetEventManager()
     {
         $mock = \Mockery::mock('Zend\EventManager\EventManagerInterface');

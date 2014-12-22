@@ -96,10 +96,26 @@ class ProfileService
         return $isValid;
     }
 
+    public function getProfileForUser(UserInterface $user)
+    {
+        $entity = clone $this->getFormPrototype()->getObject();
+        $argv = compact('entity', 'user');
+
+        $this->getEventManager()->trigger(__METHOD__.'.pre', $this, $argv);
+
+        foreach ($this->getExtensions() as $name => $ext) {
+            $entity->{$name} = $ext->getObjectForUser($user);
+        }
+
+        $this->getEventManager()->trigger(__METHOD__.'.post', $this, $argv);
+
+        return $entity;
+    }
+
     public function constructFormForUser(UserInterface $user)
     {
         $form = clone $this->getFormPrototype();
-        $entity = clone $form->getObject();
+        $entity = $this->getProfileForUser($user);
         $argv = compact('form', 'entity', 'user');
 
         $vgOverrides = $this->getModuleOptions()->getValidationGroupOverrides();
@@ -110,7 +126,6 @@ class ProfileService
         foreach ($this->getExtensions() as $name => $ext) {
             $form->add(clone $ext->getFieldset(), array('name' => $name));
             $form->getInputFilter()->add(clone $ext->getInputFilter(), $name);
-            $entity->{$name} = $ext->getObjectForUser($user);
 
             $this->getEventManager()->trigger(__METHOD__.'.extension', $this, $argv + array(
                 'extension' => $ext,
