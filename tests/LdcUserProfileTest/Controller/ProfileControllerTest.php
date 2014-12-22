@@ -10,13 +10,13 @@
 namespace LdcUserProfileTest\Controller;
 
 use LdcUserProfile\Controller\ProfileController;
-use Zend\ServiceManager\ServiceManager;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\SharedEventManager;
 use Zend\EventManager\StaticEventManager;
-use Zend\Mvc\Router\RouteMatch;
-use Zend\Mvc\MvcEvent;
 use Zend\Http\PhpEnvironment\Request;
+use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Router\RouteMatch;
+use Zend\ServiceManager\ServiceManager;
 
 class ProfileControllerTest extends \PHPUnit_Framework_TestCase
 {

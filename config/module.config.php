@@ -29,8 +29,8 @@ return array(
             'ldc-user-profile_module_options' => 'LdcUserProfile\Options\ModuleOptionsFactory',
             'ldc-user-profile_service'        => 'LdcUserProfile\Service\ProfileServiceFactory',
 
-            'ldc-user-profile_extension_zfcuser' => 'LdcUserProfile\Extensions\ZfcUser\ZfcUserExtensionFactory',
-            'ldc-user-profile_extension_zfcuser_fieldset' => 'LdcUserProfile\Extensions\ZfcUser\ZfcUserFieldsetFactory',
+            'ldc-user-profile_extension_zfcuser'             => 'LdcUserProfile\Extensions\ZfcUser\ZfcUserExtensionFactory',
+            'ldc-user-profile_extension_zfcuser_fieldset'    => 'LdcUserProfile\Extensions\ZfcUser\ZfcUserFieldsetFactory',
             'ldc-user-profile_extension_zfcuser_inputfilter' => 'LdcUserProfile\Extensions\ZfcUser\ZfcUserInputFilterFactory',
         ),
     ),

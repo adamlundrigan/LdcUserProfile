@@ -49,14 +49,14 @@ class ModuleOptions extends AbstractOptions
 
     public function setIsEnabled($isEnabled)
     {
-        $this->isEnabled = $isEnabled == true;
+        $this->isEnabled = $isEnabled === true;
 
         return $this;
     }
 
     public function isEnabled()
     {
-        return $this->getIsEnabled() == true;
+        return $this->getIsEnabled() === true;
     }
 
     public function getUrlPath()

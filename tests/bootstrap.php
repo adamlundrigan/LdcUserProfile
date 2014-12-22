@@ -9,8 +9,8 @@
 
 namespace LdcUserProfileTest;
 
-use Zend\Loader\AutoloaderFactory;
 use RuntimeException;
+use Zend\Loader\AutoloaderFactory;
 
 error_reporting(E_ALL | E_STRICT);
 chdir(__DIR__);
@@ -52,9 +52,9 @@ class Bootstrap
                 )),
                 'Zend\Loader\StandardAutoloader' => array(
                     'autoregister_zf' => true,
-                    'namespaces' => array(
+                    'namespaces'      => array(
                         'LdcUserProfile' => __DIR__.'/../src/LdcUserProfile',
-                        __NAMESPACE__ => __DIR__.'/'.__NAMESPACE__,
+                        __NAMESPACE__    => __DIR__.'/'.__NAMESPACE__,
                     ),
                 ),
             ));

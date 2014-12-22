@@ -10,9 +10,9 @@
 namespace LdcUserProfile\Extensions\ZfcUser;
 
 use LdcUserProfile\Extensions\AbstractExtension;
+use Zend\Crypt\Password\Bcrypt;
 use ZfcUser\Entity\UserInterface;
 use ZfcUser\Service\User as UserService;
-use Zend\Crypt\Password\Bcrypt;
 
 class ZfcUserExtension extends AbstractExtension
 {

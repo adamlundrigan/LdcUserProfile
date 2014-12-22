@@ -9,11 +9,11 @@
 
 namespace LdcUserProfile\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
 use LdcUserProfile\Options\ModuleOptions;
 use LdcUserProfile\Service\ProfileService;
-use Zend\View\Model\ViewModel;
 use Zend\Http\Response;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
 /**
  * @method \ZfcUser\Controller\Plugin\ZfcUserAuthentication zfcUserAuthentication()
@@ -34,7 +34,7 @@ class ProfileController extends AbstractActionController
 
         $vm = new ViewModel(array(
             'profileForm' => $form,
-            'options' => $this->getModuleOptions(),
+            'options'     => $this->getModuleOptions(),
         ));
 
         $prg = $this->fileprg($form, $this->url()->fromRoute('ldc-user-profile'), true);

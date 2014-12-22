@@ -23,8 +23,8 @@ class ZfcUserForm extends Register
 
         if (!$this->has('userId')) {
             $this->add(array(
-                'name' => 'userId',
-                'type' => 'Zend\Form\Element\Hidden',
+                'name'       => 'userId',
+                'type'       => 'Zend\Form\Element\Hidden',
                 'attributes' => array(
                     'type' => 'hidden',
                 ),

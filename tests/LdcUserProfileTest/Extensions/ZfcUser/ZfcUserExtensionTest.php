@@ -9,8 +9,8 @@
 
 namespace LdcUserProfileTest\Extensions\ZfcUser;
 
-use LdcUserProfileTest\Extensions\AbstractExtensionTest;
 use LdcUserProfile\Extensions\ZfcUser\ZfcUserExtension;
+use LdcUserProfileTest\Extensions\AbstractExtensionTest;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
 class ZfcUserExtensionTest extends AbstractExtensionTest

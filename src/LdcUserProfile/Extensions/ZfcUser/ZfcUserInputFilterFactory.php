@@ -9,9 +9,9 @@
 
 namespace LdcUserProfile\Extensions\ZfcUser;
 
+use LdcUserProfile\Extensions\ZfcUser\Validator\NoOtherRecordExists;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use LdcUserProfile\Extensions\ZfcUser\Validator\NoOtherRecordExists;
 
 class ZfcUserInputFilterFactory implements FactoryInterface
 {

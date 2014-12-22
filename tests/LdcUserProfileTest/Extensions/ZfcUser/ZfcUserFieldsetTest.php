@@ -22,11 +22,11 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
 
         $enabled = array();
         foreach ($setup as $field => $state) {
-            $mockForm->shouldReceive('has')->withArgs(array($field))->once()->andReturn($state == 1);
+            $mockForm->shouldReceive('has')->withArgs(array($field))->once()->andReturn($state === 1);
             if ($state) {
                 $element = \Mockery::mock('Zend\Form\ElementInterface');
                 $element->shouldReceive('getName')->andReturn($field);
-                $element->shouldReceive('setName')->withArgs(array($field == 'userId' ? 'id' : $field))->once();
+                $element->shouldReceive('setName')->withArgs(array($field === 'userId' ? 'id' : $field))->once();
 
                 $mockForm->shouldReceive('get')->withArgs(array($field))->once()->andReturn($element);
 
@@ -37,7 +37,7 @@ class ZfcUserFieldsetTest extends \PHPUnit_Framework_TestCase
         $extension = new ZfcUserFieldset($mockForm);
 
         foreach ($enabled as $field) {
-            $this->assertTrue($extension->has($field == 'userId' ? 'id' : $field));
+            $this->assertTrue($extension->has($field === 'userId' ? 'id' : $field));
         }
     }
 

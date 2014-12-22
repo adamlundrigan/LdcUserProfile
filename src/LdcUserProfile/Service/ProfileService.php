@@ -9,12 +9,12 @@
 
 namespace LdcUserProfile\Service;
 
-use Zend\Form\FormInterface;
-use Zend\EventManager\EventManagerInterface;
 use LdcUserProfile\Extensions\AbstractExtension;
-use ZfcUser\Entity\UserInterface;
 use LdcUserProfile\Form\PrototypeForm;
 use LdcUserProfile\Options\ModuleOptions;
+use Zend\EventManager\EventManagerInterface;
+use Zend\Form\FormInterface;
+use ZfcUser\Entity\UserInterface;
 
 class ProfileService
 {

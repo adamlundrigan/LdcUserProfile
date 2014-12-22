@@ -19,7 +19,7 @@ class NoOtherRecordExists extends NoRecordExists
         $this->setValue($value);
 
         $result = $this->query($value);
-        if ($result && $result->getId() != $context['id']) {
+        if ($result && $result->getId() !== $context['id']) {
             $valid = false;
             $this->error(self::ERROR_RECORD_FOUND);
         }

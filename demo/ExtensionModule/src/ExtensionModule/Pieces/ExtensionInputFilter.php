@@ -14,21 +14,21 @@ use Zend\InputFilter\InputFilter;
 class ExtensionInputFilter extends InputFilter
 {
     public function __construct()
-    {        
+    {
         $this->add(array(
             'name'       => 'twitter',
             'required'   => true,
             'filters'    => array(array('name' => 'StringTrim')),
             'validators' => array(array('name' => 'Alnum')),
         ));
-        
+
         $this->add(array(
             'name'       => 'github',
             'required'   => true,
             'filters'    => array(array('name' => 'StringTrim')),
             'validators' => array(array('name' => 'Alnum')),
         ));
-        
+
         $this->add(array(
             'name'       => 'homepage',
             'required'   => false,

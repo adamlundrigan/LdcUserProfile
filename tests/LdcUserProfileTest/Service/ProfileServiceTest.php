@@ -10,10 +10,10 @@
 namespace LdcUserProfileTest\Service;
 
 use LdcUserProfile\Service\ProfileService;
-use Zend\Form\Element\Text;
-use Zend\Stdlib\Hydrator\ObjectProperty;
-use Zend\Form\FormInterface;
 use Zend\EventManager\EventManager;
+use Zend\Form\Element\Text;
+use Zend\Form\FormInterface;
+use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class ProfileServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -212,9 +212,9 @@ class ProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->testConstructFormForUser();
 
         $this->assertEquals(array(
-            'LdcUserProfile\Service\ProfileService::constructFormForUser.pre'  => 1,
+            'LdcUserProfile\Service\ProfileService::constructFormForUser.pre'        => 1,
             'LdcUserProfile\Service\ProfileService::constructFormForUser.extension'  => 1,
-            'LdcUserProfile\Service\ProfileService::constructFormForUser.post' => 1,
+            'LdcUserProfile\Service\ProfileService::constructFormForUser.post'       => 1,
         ), $mockEventManager->triggeredEventCount);
     }
 

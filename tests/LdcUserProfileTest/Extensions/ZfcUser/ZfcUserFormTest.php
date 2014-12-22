@@ -9,8 +9,8 @@
 
 namespace LdcUserProfileTest\Extensions\ZfcUser;
 
-use ZfcUser\Options\ModuleOptions;
 use LdcUserProfile\Extensions\ZfcUser\ZfcUserForm;
+use ZfcUser\Options\ModuleOptions;
 
 class ZfcUserFormTest extends \PHPUnit_Framework_TestCase
 {

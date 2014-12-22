@@ -17,7 +17,7 @@ class Module implements AutoloaderProviderInterface
     {
         $sm = $e->getApplication()->getServiceManager();
         $sm->get('ldc-user-profile_service')->registerExtension(
-	        $sm->get('extension-module_extension')
+            $sm->get('extension-module_extension')
         );
     }
 

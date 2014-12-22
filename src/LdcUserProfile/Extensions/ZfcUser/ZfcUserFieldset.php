@@ -20,7 +20,7 @@ class ZfcUserFieldset extends Fieldset
 
         foreach (array('userId', 'username', 'email', 'display_name', 'password', 'passwordVerify') as $field) {
             if ($baseForm->has($field)) {
-                $newName = ($field == 'userId' ? 'id' : $field);
+                $newName = ($field === 'userId' ? 'id' : $field);
                 $this->add($baseForm->get($field), array('name' => $newName));
             }
         }

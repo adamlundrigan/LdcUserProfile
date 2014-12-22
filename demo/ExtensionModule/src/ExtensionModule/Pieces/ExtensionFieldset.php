@@ -16,30 +16,29 @@ class ExtensionFieldset extends Fieldset
     public function __construct()
     {
         parent::__construct('modext');
-        
+
         $this->add(array(
-            'name' => 'twitter',
-            'type' => 'Text',
+            'name'    => 'twitter',
+            'type'    => 'Text',
             'options' => array(
-                'label' => 'Twitter'
-            )
+                'label' => 'Twitter',
+            ),
         ));
-        
+
         $this->add(array(
-            'name' => 'github',
-            'type' => 'Text',
+            'name'    => 'github',
+            'type'    => 'Text',
             'options' => array(
-                'label' => 'GitHub'
-            )
+                'label' => 'GitHub',
+            ),
         ));
-        
+
         $this->add(array(
-            'name' => 'homepage',
-            'type' => 'Url',
+            'name'    => 'homepage',
+            'type'    => 'Url',
             'options' => array(
-                'label' => 'Homepage'
-            )
+                'label' => 'Homepage',
+            ),
         ));
     }
-
 }

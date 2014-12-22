@@ -1,7 +1,7 @@
 <?php
 return array(
     'db' => array(
-        'driver' => 'Pdo_Sqlite',
+        'driver'   => 'Pdo_Sqlite',
         'database' => getcwd().'/data/users.db',
     ),
     'service_manager' => array(

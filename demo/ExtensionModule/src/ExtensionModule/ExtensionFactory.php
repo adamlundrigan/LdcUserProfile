@@ -22,7 +22,7 @@ class ExtensionFactory implements FactoryInterface
         $service = new Extension();
         $service->setFieldset(new Pieces\ExtensionFieldset());
         $service->setInputFilter(new Pieces\ExtensionInputFilter());
-        
+
         $service->getFieldset()
                 ->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty())
                 ->setObject(new \stdClass());
