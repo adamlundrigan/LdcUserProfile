@@ -9,8 +9,8 @@
 
 namespace LdcUserProfile\Extensions\ZfcUser\Validator;
 
-use ZfcUser\Validator\NoRecordExists;
 use ZfcUser\Entity\UserInterface;
+use ZfcUser\Validator\NoRecordExists;
 
 class NoOtherRecordExists extends NoRecordExists
 {
