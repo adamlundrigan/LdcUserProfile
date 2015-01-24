@@ -10,6 +10,7 @@
 namespace LdcUserProfile\Extensions\ZfcUser\Validator;
 
 use ZfcUser\Validator\NoRecordExists;
+use ZfcUser\Entity\UserInterface;
 
 class NoOtherRecordExists extends NoRecordExists
 {
@@ -19,7 +20,7 @@ class NoOtherRecordExists extends NoRecordExists
         $this->setValue($value);
 
         $result = $this->query($value);
-        if ($result && $result->getId() !== $context['id']) {
+        if ($result instanceof UserInterface && (int)$result->getId() !== (int)$context['id']) {
             $valid = false;
             $this->error(self::ERROR_RECORD_FOUND);
         }

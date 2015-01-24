@@ -56,4 +56,20 @@ class NoOtherRecordExistsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($validator->isValid('foobar', array('id' => 123)));
     }
+
+    public function testUserIdentifierComparisonIsNotTypeSensitive()
+    {
+        $mockUser = \Mockery::mock('ZfcUser\Entity\UserInterface');
+        $mockUser->shouldReceive('getId')->andReturn(123);
+
+        $mockMapper = \Mockery::mock('ZfcUser\Mapper\UserInterface');
+        $mockMapper->shouldReceive('findByUsername')->withArgs(array('foobar'))->once()->andReturn($mockUser);
+
+        $validator = new NoOtherRecordExists(array(
+            'mapper' => $mockMapper,
+            'key'    => 'username',
+        ));
+
+        $this->assertTrue($validator->isValid('foobar', array('id' => '123')));
+    }
 }
